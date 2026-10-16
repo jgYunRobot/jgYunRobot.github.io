@@ -1,1 +1,72 @@
-# jgYunRobot.github.io
+# jgYunRobot — 로봇 개발 노트
+
+개인 로봇 개발·학부 연구·Physical AI 실험을 정리하는 기술 블로그입니다.
+[AstroPaper](https://github.com/satnaing/astro-paper)를 기반으로 구성했습니다.
+
+## 개발 및 미리보기
+
+Node.js 24를 사용합니다.
+
+```bash
+npm ci
+npm run dev
+```
+
+검색까지 포함한 완성된 정적 사이트를 확인하려면:
+
+```bash
+npm run build
+python3 scripts/check_links.py
+npm run preview -- --host 127.0.0.1 --port 4173
+```
+
+## 글 쓰기
+
+`src/content/posts/`에 Markdown 파일을 추가합니다. 파일 이름이 글 주소가 됩니다.
+
+```yaml
+---
+title: 글 제목
+pubDatetime: 2026-10-17T10:00:00+09:00
+category: 모션·기구학
+tags: [motion, cpp]
+description: 글 목록과 검색에 표시할 요약
+---
+```
+
+`## 목차`를 넣으면 본문의 제목으로 목차를 만듭니다. `featured: true`는 홈의 먼저 읽기에 표시합니다.
+본문에 영상은 `controls playsinline preload="none"`을 사용해 독자가 선택했을 때 재생합니다.
+
+## 사이트 설정
+
+- 제목·작성자·주소·외부 링크: `astro-paper.config.ts`
+- 소개: `src/content/pages/about.md`
+- 테마 색상: `src/styles/theme.css`
+- 기본 다크 모드·사용자 테마 선택: `src/scripts/theme.ts`, `src/layouts/Layout.astro`
+- 한글 UI: `src/i18n/lang/ko.ts`
+- 개인 미디어: `public/media/`
+
+OS의 화면 모드에 관계없이 첫 방문은 다크 모드입니다. 독자가 테마를 바꾸면 선택을 저장합니다.
+
+## GitHub Pages
+
+GitHub 저장소의 **Settings → Pages → Build and deployment → Source**를 **GitHub Actions**로 설정합니다.
+`main`에 반영하면 `.github/workflows/pages.yml`이 빌드·링크 확인 후 `dist/`만 배포합니다.
+PR에서는 빌드와 링크 확인만 실행합니다. 목표 주소는 `https://jgyunrobot.github.io/`입니다.
+
+## 콘텐츠 관리
+
+- 개인 개발 기록과 학부 연구 자료만 사용합니다.
+- 원본 Notion 내용을 통째로 가져오지 않고 글에 필요한 설명만 다시 작성했습니다.
+- 실물 시연·시뮬레이션·코드 설계를 구분합니다.
+- 기존 이력서나 포트폴리오 PDF는 배포하지 않습니다.
+- 작성일은 블로그에 정리한 날짜이며, 과거 실험의 시점은 본문에 표기합니다.
+- 출처와 미디어 대응은 `CONTENT_SOURCES.md`에 기록했습니다.
+
+## 테마 및 라이선스
+
+테마: [AstroPaper](https://github.com/satnaing/astro-paper), MIT License, Sat Naing.
+원본 테마 라이선스는 `LICENSE`에 유지했습니다. 개인 글·사진·영상의 권리는 각 원저작자에게 있습니다.
+
+구성 참고: [AstroPaper](https://astro-paper.pages.dev/), [Chirpy](https://chirpy.cotes.page/).
+빌드·배포 방식은 [GitHub Pages 공식 문서](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)를 참고했습니다.
