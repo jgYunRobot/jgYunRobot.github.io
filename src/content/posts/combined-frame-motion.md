@@ -18,6 +18,20 @@ description: 움직이는 기준 Frame에서 TCP 상대 모션을 유지하며 o
   <figcaption>기준 Frame의 사각형 이동, TCP의 상대 원운동, offset 변경을 함께 적용한 시뮬레이션.</figcaption>
 </figure>
 
+## TCP offset 변경 시 기록한 그래프
+
+TCP와 flange의 궤적, 기준 Frame의 위치, 관절 명령 토크를 함께 기록했다. Offset이 바뀌는 동안 flange가 보정되고 TCP의 상대 궤적이 유지되는 과정을 볼 수 있다.
+
+<figure>
+  <video controls playsinline preload="none" poster="/media/images/tcp-offset-log.jpg" aria-label="TCP offset 변경 실험의 3차원 궤적·TCP 위치·관절 명령 토크 그래프">
+    <source src="/media/videos/tcp-offset-log.mp4" type="video/mp4" />
+    <a href="/media/videos/tcp-offset-log.mp4">그래프 영상 보기</a>
+  </video>
+  <figcaption>64.34초의 로그를 2배속으로 재생한다. TCP 위치·경로는 제어기의 목표값이며, 토크는 관절 명령값이다.</figcaption>
+</figure>
+
+[그래프 영상 크게 보기](/media/videos/tcp-offset-log.mp4)
+
 ## 적용한 동작
 
 - 기준 Frame은 한 변 6 cm의 사각형을 따라 이동한다.
