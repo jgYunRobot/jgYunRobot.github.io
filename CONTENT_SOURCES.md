@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | Teleoperation·멀티모달 학습·실물 적용 | 개인 실물 연결·학습 기록, 2026.06–08, 사용자 제공 이력서의 개인 연구 설명 및 사용자 확인 | teleoperation.jpg / .mp4, smolvla.jpg / .mp4 |
 | 복합 Frame·양팔 모션 | 개인 MuJoCo 기반 물리 엔진 시뮬레이션 실험 기록, 2026.10 | frame-motion.jpg / .mp4, tcp-offset-log.jpg / .mp4, dual-arm.jpg / .mp4 |
-| 직선·원호 모션 | 개인 C++ 출력 표본 및 실물 연결 시연 | linear-path.png, circle-path.png, motion-planning.jpg / .mp4 |
+| 직선·원호 모션 | 개인 C++ 출력 표본 및 실물 연결 시연, 개인 포트폴리오의 TOPP 원본 그래프·설명 | linear-path.png, circle-path.png, topp-linear-pose-pvaj.png, topp-circle-pose-pvaj.png, motion-planning.jpg / .mp4 |
 | 휠체어 로봇팔 | 2021–2022 학부 연구 자료·발표 기록 | wheelchair-arm.jpg / .mp4 |
 | LeRobot 집기·놓기 | 사용자가 지정한 2026-02-17 학습 기록만 사용 | lerobot-pick-place.jpg / .mp4 |
 | 소개: 경력기술서 | 사용자 제공 ‘윤정길 이력서.pdf’의 경력기술서 | 원본 PDF는 게시하지 않음 |
@@ -32,6 +32,7 @@
 
 Teleoperation과 정책 연동은 실물 시연, 복합 Frame·양팔 모션은 시뮬레이션입니다.
 모션 표본 그래프와 실물 영상은 같은 추종 정확도 측정의 결과로 결합하지 않았습니다.
+TOPP 그래프는 개인 포트폴리오의 직선·원호 C++ 출력 원본을 사용했습니다. 직선 약 3.48초·원호 약 4.03초이며, 저크는 출력 가속도를 수치 미분한 표본값입니다. 원호의 전역 최단 시간이나 실물 추종 정확도를 주장하지 않습니다.
 학부 로봇팔 원본 영상의 3배속 표기를 유지했습니다.
 TCP offset 로그 영상은 개인 포트폴리오의 2112×1232 원본을 사용했습니다. 64.34초 로그를 2배속으로 재생하며, 목표 TCP 위치·궤적과 관절 명령 토크를 표시합니다.
 
