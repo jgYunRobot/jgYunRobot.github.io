@@ -1,7 +1,7 @@
 # jgYunRobot — 로봇 개발 노트
 
 개인 로봇 개발·학부 연구·Physical AI 실험을 정리하는 기술 블로그입니다.
-[AstroPaper](https://github.com/satnaing/astro-paper)를 기반으로 구성했습니다.
+AstroPaper를 기반으로 구성했습니다.
 
 ## 개발 및 미리보기
 
@@ -56,8 +56,10 @@ PR에서는 빌드와 링크 확인만 실행합니다. 목표 주소는 `https:
 
 ## 콘텐츠 관리
 
-- 개인 개발 기록과 학부 연구 자료만 사용합니다.
-- 원본 Notion 내용을 통째로 가져오지 않고 글에 필요한 설명만 다시 작성했습니다.
+- 블로그 글은 개인 개발 기록과 학부 연구 자료를 사용합니다.
+- 소개 페이지는 제공된 이력서의 회사 경력기술서를 담습니다.
+- 본문은 결과를 먼저 쓰고 구현 내용과 확인 범위를 간결하게 정리합니다.
+- 외부 계정 링크와 수식, 개인 제어기의 내부 구조·고유 이름을 노출하지 않습니다.
 - 실물 시연·시뮬레이션·코드 설계를 구분합니다.
 - 기존 이력서나 포트폴리오 PDF는 배포하지 않습니다.
 - 작성일은 블로그에 정리한 날짜이며, 과거 실험의 시점은 본문에 표기합니다.
@@ -65,8 +67,8 @@ PR에서는 빌드와 링크 확인만 실행합니다. 목표 주소는 `https:
 
 ## 테마 및 라이선스
 
-테마: [AstroPaper](https://github.com/satnaing/astro-paper), MIT License, Sat Naing.
+테마: AstroPaper, MIT License, Sat Naing.
 원본 테마 라이선스는 `LICENSE`에 유지했습니다. 개인 글·사진·영상의 권리는 각 원저작자에게 있습니다.
 
 구성 참고: [AstroPaper](https://astro-paper.pages.dev/), [Chirpy](https://chirpy.cotes.page/).
-빌드·배포 방식은 [GitHub Pages 공식 문서](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)를 참고했습니다.
+빌드·배포 방식은 GitHub Pages 공식 문서를 참고했습니다.
