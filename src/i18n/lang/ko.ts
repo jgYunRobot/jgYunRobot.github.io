@@ -36,7 +36,8 @@ export default {
     tagsTitle: "태그",
     tagsDesc: "관심 있는 주제로 글을 찾아보세요.",
     postsTitle: "모든 글",
-    postsDesc: "직접 만들고 실험하며 남긴 기록입니다.",
+    postsDesc:
+      "회사에서 수행한 업무는 제외하고, 개인 프로젝트와 실험 기록만 정리합니다.",
     archivesTitle: "아카이브",
     archivesDesc: "날짜순으로 모아 보는 개발 기록입니다.",
     searchTitle: "검색",

@@ -6,8 +6,7 @@
 
 | 글 | 근거 | 미디어 |
 | --- | --- | --- |
-| eRob Teleoperation | 개인 실물 연결 기록, 2026.06 | teleoperation.jpg / .mp4 |
-| 노란 병 추종 | 개인 SmolVLA 실물 시연 기록, 2026.08 | smolvla.jpg / .mp4 |
+| Teleoperation·멀티모달 학습·실물 적용 | 개인 실물 연결·학습 기록, 2026.06–08, 사용자 제공 이력서의 개인 연구 설명 및 사용자 확인 | teleoperation.jpg / .mp4, smolvla.jpg / .mp4 |
 | 복합 Frame·양팔 모션 | 개인 MuJoCo 기반 물리 엔진 시뮬레이션 실험 기록, 2026.10 | frame-motion.jpg / .mp4, tcp-offset-log.jpg / .mp4, dual-arm.jpg / .mp4 |
 | 직선·원호 모션 | 개인 C++ 출력 표본 및 실물 연결 시연 | linear-path.png, circle-path.png, motion-planning.jpg / .mp4 |
 | 휠체어 로봇팔 | 2021–2022 학부 연구 자료·발표 기록 | wheelchair-arm.jpg / .mp4 |

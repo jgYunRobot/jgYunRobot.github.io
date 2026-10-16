@@ -16,6 +16,9 @@ import config from "./astro-paper.config";
 
 export default defineConfig({
   site: config.site.url,
+  redirects: {
+    "/posts/smolvla-on-robot/": "/posts/erob-teleoperation/",
+  },
   integrations: [
     mdx(),
     sitemap({
