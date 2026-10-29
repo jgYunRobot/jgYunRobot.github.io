@@ -121,3 +121,12 @@ button {
 #hero > a[title="RSS Feed"] {
   margin-inline-start: 0.6rem;
 }
+
+article iframe.experiment-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
