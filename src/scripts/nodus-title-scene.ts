@@ -170,6 +170,7 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     camera.lookAt(0, center.y - 0.08, 0);
     camera.updateProjectionMatrix();
     floor.position.y = bounds.min.y - 0.32;
+    group.rotation.set(-0.055, -0.055, 0);
     renderer.setSize(width, height, false);
     if (visible && !document.hidden) render(performance.now());
   };
@@ -269,10 +270,15 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   const resize = new ResizeObserver(layout);
   resize.observe(host);
   layout();
-  host.dataset.ready = "";
   schedule();
+  const revealFrame = requestAnimationFrame(() => {
+    if (signal.aborted) return;
+    render(performance.now());
+    host.dataset.ready = "";
+  });
 
   return () => {
+    cancelAnimationFrame(revealFrame);
     cancelAnimationFrame(frame);
     observer.disconnect();
     resize.disconnect();

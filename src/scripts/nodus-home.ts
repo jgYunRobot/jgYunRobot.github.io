@@ -5,6 +5,8 @@ class NodusTitle extends HTMLElement {
   private controller?: AbortController;
 
   connectedCallback() {
+    delete this.dataset.ready;
+    delete this.dataset.renderer;
     this.controller = new AbortController();
     const signal = this.controller.signal;
     import("./nodus-title-scene")
