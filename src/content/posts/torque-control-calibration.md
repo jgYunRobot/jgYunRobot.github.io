@@ -5,7 +5,7 @@ homeCategory: Robot Control
 homeCoverAlt: Side-by-side real robot motion with friction compensation off and on
 cover: /media/images/torque-control-cover.jpg
 coverAlt: 마찰 보상 OFF·ON으로 나란히 동작하는 실제 로봇
-previewYoutube: 9N0JM_-uXR0
+previewVideo: /media/previews/friction-compensation.mp4
 title: 전류 토크·마찰·처짐 보상으로 실제 로봇 경로 오차 줄이기
 pubDatetime: 2026-10-29T00:00:00+09:00
 category: 로봇 제어
@@ -90,8 +90,11 @@ description: 전류 토크 보정과 6축 마찰 식별을 진행하고, 사각�
 ### 실물 영상
 
 <figure>
-  <iframe class="experiment-video" src="https://www.youtube-nocookie.com/embed/9N0JM_-uXR0?rel=0" title="실제 로봇의 마찰 보상 비교 동작 영상" width="1280" height="720" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-  <figcaption>마찰 보상 동작을 확인하는 실물 영상. 앞 절의 10월 29일 최신 토크 로그와는 별도 자료다.</figcaption>
+  <video controls playsinline preload="none" poster="/media/images/torque-control-cover.jpg" aria-label="마찰 보상 OFF·ON 실물 원본 동작 영상" width="1920" height="1080">
+    <source src="/media/videos/friction-compensation.mp4" type="video/mp4" />
+    <a href="/media/videos/friction-compensation.mp4">마찰 보상 비교 원본 영상 내려받기</a>
+  </video>
+  <figcaption>사용자가 제공한 마찰 보상 OFF·ON 원본 실물 영상. 앞 절의 10월 29일 최신 토크 로그와는 별도 자료다.</figcaption>
 </figure>
 
 ## 처짐 보상 OFF/ON: 같은 경로에서 반복 비교

@@ -82,6 +82,7 @@ article h2 {
 }
 article video {
   width: 100%;
+  height: auto;
   max-height: 32rem;
   background: #0e1011;
   border: 1px solid var(--border);

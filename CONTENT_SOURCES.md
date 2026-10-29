@@ -2,7 +2,7 @@
 
 글은 개인 실험의 결과를 먼저 제시하고, 구현 내용과 확인 범위를 짧게 정리합니다.
 원문 외부 링크, 수식, 개인 제어기의 고유 이름과 내부 구조 설명은 게시하지 않습니다.
-개인 글과 미디어는 정적 파일에서 제공합니다. Torque Control 글의 실물 영상은 사용자가 지정한 원문의 YouTube 영상을 개인정보 보호 강화 모드로 임베드합니다.
+개인 글과 미디어는 정적 파일에서 제공합니다. Torque Control 글의 실물 영상은 사용자가 지정한 friction compensation.mp4 원본 파일을 그대로 제공합니다.
 
 | 글 | 근거 | 미디어 |
 | --- | --- | --- |
@@ -11,7 +11,7 @@
 | 직선·원호 모션 | 개인 C++ 출력 표본 및 실물 연결 시연, 개인 포트폴리오의 TOPP 원본 그래프·설명 | linear-path.png, circle-path.png, topp-linear-pose-pvaj.png, topp-circle-pose-pvaj.png, motion-planning.jpg / .mp4 |
 | 휠체어 로봇팔 | 2021–2022 학부 연구 자료·발표 기록 | wheelchair-arm.jpg / .mp4 |
 | LeRobot 집기·놓기 | 사용자가 지정한 2026-02-17 학습 기록만 사용 | lerobot-pick-place.jpg / .mp4 |
-| 전류 토크·마찰·처짐 보상 | 사용자가 지정한 Torque Control 기록, 2026.10.25 피팅·검증, 10.26 마찰 비교, 10.29 최신 토크·처짐 반복 측정 | torque-latest-j3.png, friction-fit-six-axes.png, friction-square.png, friction-circle.png, deflection-square.png, deflection-circle.png; 원문 실물 영상 임베드 |
+| 전류 토크·마찰·처짐 보상 | 사용자가 지정한 Torque Control 기록, 2026.10.25 피팅·검증, 10.26 마찰 비교, 10.29 최신 토크·처짐 반복 측정 | torque-latest-j3.png, friction-fit-six-axes.png, friction-square.png, friction-circle.png, deflection-square.png, deflection-circle.png; friction-compensation.mp4 원본 실물 영상 |
 | 소개: 경력기술서 | 사용자 제공 ‘윤정길 이력서.pdf’의 경력기술서 | 원본 PDF는 게시하지 않음 |
 
 ## LeRobot 글의 근거 범위
@@ -51,12 +51,12 @@ AstroPaper, MIT License, Sat Naing.
 - 10월 26일 마찰 OFF/ON은 조건별 1회, 10월 29일 처짐 ON/OFF는 ON→OFF→OFF→ON의 조건별 2회 결과로 구분했습니다.
 - 위치는 관절 엔코더의 native FK로 계산했습니다. 외부 계측 TCP 절대 정확도·보편적 정확도·통계적 인수 검증을 주장하지 않습니다.
 - 처짐 비교 RMS에서는 준비·진입·정지·복귀를 제외했습니다. 마찰 비교는 원문 평가 구간을 유지했습니다.
-- 실물 영상은 원문의 9N0JM_-uXR0 영상입니다. 사용자 요청에 따라 임베드하며, 최신 토크 로그와 동일 시점 영상이라고 표현하지 않았습니다.
+- 실물 영상은 사용자가 제공한 friction compensation.mp4 원본입니다. 1920×1080, 약 59.94 fps, 21.952초의 H.264/AAC 파일을 재인코딩 없이 그대로 복사했습니다. 원본 SHA-256은 cb39dd1c0bd8f9fa199fe656ce5bd5468a8be7dd8d96e685b87ceb4be3235501 입니다. 최신 토크 로그와 동일 시점 영상이라고 표현하지 않았습니다.
 
 ## Project Nodus 홈의 대표 미디어
 
-- 기존 글 6개의 대표 영상과 동일한 장면 캡처를 카드 표지로 사용합니다. Torque Control 표지는 원문 9N0JM_-uXR0 영상의 공식 썸네일입니다.
-- 로컬 영상 미리보기는 기존 teleoperation, lerobot-pick-place, wheelchair-arm, motion-planning, frame-motion 원본의 최대 8초 무음 발췌입니다. 새 실험 결과를 추가하지 않았습니다.
+- 기존 글 6개의 대표 영상과 동일한 장면 캡처를 카드 표지로 사용합니다. Torque Control 표지는 사용자가 제공한 원본 영상의 1초 지점을 캡처했습니다.
+- 로컬 영상 미리보기는 기존 teleoperation, lerobot-pick-place, wheelchair-arm, motion-planning, frame-motion, friction-compensation 원본의 최대 8초 무음 발췌입니다. 새 실험 결과를 추가하지 않았습니다.
 - 미리보기 출처는 글의 cover, coverAlt, previewVideo 또는 previewYoutube frontmatter에 저장합니다. 모든 글의 본문과 기존 실험 해석 범위를 유지합니다.
 
 ## 홈 Timeline 날짜 보정
