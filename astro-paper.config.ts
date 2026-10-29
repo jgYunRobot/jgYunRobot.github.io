@@ -3,8 +3,8 @@ import { defineAstroPaperConfig } from "./src/types/config";
 export default defineAstroPaperConfig({
   site: {
     url: "https://jgyunrobot.github.io/",
-    title: "jgYunRobot",
-    description: "윤정길의 개인 로봇 개발 노트. 직접 개발하는 제어기와 로봇 모션, Teleoperation·학습 실험을 기록합니다.",
+    title: "Project Nodus",
+    description: "Project Nodus — 로봇 제어부터 Physical AI까지. 직접 만들고, 움직이고, 검증한 프로젝트의 기록.",
     author: "윤정길",
     profile: "https://jgyunrobot.github.io/about/",
     ogImage: "og.jpg",

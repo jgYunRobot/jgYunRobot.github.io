@@ -72,3 +72,28 @@ PR에서는 빌드와 링크 확인만 실행합니다. 목표 주소는 `https:
 
 구성 참고: [AstroPaper](https://astro-paper.pages.dev/), [Chirpy](https://chirpy.cotes.page/).
 빌드·배포 방식은 GitHub Pages 공식 문서를 참고했습니다.
+
+## Project Nodus 홈
+
+홈은 Three.js로 만든 조명을 받는 입체 타이틀과 CSS 3D 프로젝트 캐러셀로 구성합니다.
+카드에 마우스를 올리면 그 카드만 올라오며 무음 미리보기가 재생됩니다. 벗어나거나 카드를
+넘기면 영상이 멈춥니다. 이전·다음 버튼, 방향키, 드래그·스와이프를 지원하며 작은 화면에는
+영상 미리보기 버튼을 표시합니다. Motion 버튼과 시스템의 움직임 줄이기 설정을 반영합니다.
+
+글 frontmatter의 대표 이미지·미리보기 경로를 사용합니다.
+
+```yaml
+cover: /media/images/motion-planning.jpg
+coverAlt: 실제 로봇의 직선·원호 동작
+previewVideo: /media/previews/motion-planning.mp4
+```
+
+YouTube 영상을 쓰는 글은 `previewVideo` 대신 `previewYoutube`에 영상 ID를 넣습니다.
+이 경우 카드를 미리 볼 때만 개인정보 보호 강화 모드의 플레이어가 생기고, 종료 시 제거됩니다.
+로컬 미리보기는 기존 원본에서 만든 최대 8초의 무음 클립입니다. 본문의 원본 영상은 유지합니다.
+대표 이미지·미리보기를 지정하지 않은 글도 기존 글 목록에서 읽을 수 있습니다.
+
+3D 코드는 홈에서만 동적으로 불러옵니다. 화면 밖·백그라운드 탭에서는 렌더링을 멈추고,
+페이지를 이동할 때 WebGL 리소스를 해제합니다. WebGL 사용이 어려우면 CSS 타이틀을 표시하며
+JavaScript 없이도 프로젝트 링크를 이용할 수 있습니다. 설계는 `DESIGN.md`, 자산 출처는
+`THIRD_PARTY_NOTICES.md`를 참고합니다.

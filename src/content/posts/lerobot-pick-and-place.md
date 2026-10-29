@@ -1,4 +1,7 @@
 ---
+cover: /media/images/lerobot-pick-place.jpg
+coverAlt: 로봇팔이 물건을 집어 그릇에 넣는 실제 학습 실행
+previewVideo: /media/previews/lerobot-pick-place.mp4
 title: LeRobot·SmolVLA로 물건을 집어 그릇에 넣도록 학습
 pubDatetime: 2026-10-17T00:06:00+09:00
 featured: true

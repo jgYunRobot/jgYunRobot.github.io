@@ -1,4 +1,7 @@
 ---
+cover: /media/images/motion-planning.jpg
+coverAlt: 실제 로봇에서 직선과 원호 모션을 실행하는 장면
+previewVideo: /media/previews/motion-planning.mp4
 title: C++ 모션 생성기로 직선·원호 동작 구현
 pubDatetime: 2026-10-17T00:04:00+09:00
 category: 모션·기구학

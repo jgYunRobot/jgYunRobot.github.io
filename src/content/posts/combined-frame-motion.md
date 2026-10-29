@@ -1,4 +1,7 @@
 ---
+cover: /media/images/frame-motion.jpg
+coverAlt: 기준 프레임과 TCP의 복합 모션 시뮬레이션
+previewVideo: /media/previews/frame-motion.mp4
 title: 기준 Frame 이동과 TCP offset 변경을 동시에 적용
 pubDatetime: 2026-10-17T00:03:00+09:00
 category: 모션·기구학

@@ -1,4 +1,7 @@
 ---
+cover: /media/images/torque-control-cover.jpg
+coverAlt: 마찰 보상 OFF·ON으로 나란히 동작하는 실제 로봇
+previewYoutube: 9N0JM_-uXR0
 title: 전류 토크·마찰·처짐 보상으로 실제 로봇 경로 오차 줄이기
 pubDatetime: 2026-10-29T00:00:00+09:00
 category: 로봇 제어

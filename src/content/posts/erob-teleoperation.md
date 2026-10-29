@@ -1,4 +1,7 @@
 ---
+cover: /media/images/teleoperation.jpg
+coverAlt: 리더 암으로 실제 로봇을 원격 조작하는 장면
+previewVideo: /media/previews/teleoperation.mp4
 title: Teleoperation 데이터로 SmolVLA를 학습하고 실물 로봇에 적용
 pubDatetime: 2026-10-17T00:07:00+09:00
 category: Physical AI

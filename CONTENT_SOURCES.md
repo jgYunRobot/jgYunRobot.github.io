@@ -52,3 +52,9 @@ AstroPaper, MIT License, Sat Naing.
 - 위치는 관절 엔코더의 native FK로 계산했습니다. 외부 계측 TCP 절대 정확도·보편적 정확도·통계적 인수 검증을 주장하지 않습니다.
 - 처짐 비교 RMS에서는 준비·진입·정지·복귀를 제외했습니다. 마찰 비교는 원문 평가 구간을 유지했습니다.
 - 실물 영상은 원문의 9N0JM_-uXR0 영상입니다. 사용자 요청에 따라 임베드하며, 최신 토크 로그와 동일 시점 영상이라고 표현하지 않았습니다.
+
+## Project Nodus 홈의 대표 미디어
+
+- 기존 글 6개의 대표 영상과 동일한 장면 캡처를 카드 표지로 사용합니다. Torque Control 표지는 원문 9N0JM_-uXR0 영상의 공식 썸네일입니다.
+- 로컬 영상 미리보기는 기존 teleoperation, lerobot-pick-place, wheelchair-arm, motion-planning, frame-motion 원본의 최대 8초 무음 발췌입니다. 새 실험 결과를 추가하지 않았습니다.
+- 미리보기 출처는 글의 cover, coverAlt, previewVideo 또는 previewYoutube frontmatter에 저장합니다. 모든 글의 본문과 기존 실험 해석 범위를 유지합니다.

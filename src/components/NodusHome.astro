@@ -1,0 +1,260 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostUrl } from "@/utils/getPostPaths";
+import "@/styles/nodus-home.css";
+
+type Props = { posts: CollectionEntry<"posts">[] };
+const { posts } = Astro.props;
+---
+
+<div class="nodus-home" data-nodus-home>
+  <a class="nodus-skip" href="#project-gallery">프로젝트로 건너뛰기</a>
+  <header class="nodus-header">
+    <a href="/" class="nodus-brand" aria-label="Project Nodus 홈">
+      <svg viewBox="0 0 32 32" aria-hidden="true"
+        ><path d="M7 24V8l18 16V8"></path><circle cx="7" cy="8" r="2.5"
+        ></circle><circle cx="25" cy="24" r="2.5"></circle></svg
+      >
+      <span>Project <strong>Nodus</strong></span>
+    </a>
+    <nav aria-label="메인 탐색" class="nodus-nav">
+      <a href="#project-gallery" aria-current="page">Projects</a>
+      <a href="/posts/">Journal</a>
+      <a href="/about/">About</a>
+      <a href="/search/" class="nodus-search" aria-label="글 검색"
+        ><svg viewBox="0 0 24 24" aria-hidden="true"
+          ><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"
+          ></path></svg
+        ></a
+      >
+    </nav>
+  </header>
+
+  <main id="main-content" data-layout="index" data-home-path="/">
+    <section class="nodus-hero" aria-labelledby="nodus-title">
+      <div class="hero-ambient" aria-hidden="true"></div>
+
+      <h1 id="nodus-title" class="nodus-accessible">Project Nodus</h1>
+      <nodus-title class="nodus-title-stage" aria-hidden="true">
+        <span class="nodus-title-fallback"
+          ><span>Project</span><strong><em>N</em>odus</strong></span
+        >
+        <canvas class="nodus-title-canvas"></canvas>
+      </nodus-title>
+      <div class="hero-copy">
+        <p>
+          로봇 제어부터 Physical AI까지.<br class="mobile-break" /> 직접 만들고, 움직이고,
+          검증한 기록.
+        </p>
+        <a class="hero-explore" href="#project-gallery"
+          ><span>Explore the projects</span><svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6"></path></svg
+          ></a
+        >
+      </div>
+    </section>
+
+    <section
+      class="nodus-projects"
+      id="project-gallery"
+      aria-labelledby="gallery-title"
+    >
+      <div class="gallery-heading">
+        <div>
+          <h2 id="gallery-title">실험에서, 현실로.</h2>
+        </div>
+        <div class="gallery-tools">
+          <span class="hover-hint"><span></span>Hover to play</span><button
+            class="motion-toggle"
+            type="button"
+            data-motion-toggle
+            aria-pressed="false"
+            aria-label="배경 움직임 일시 정지"
+            ><svg viewBox="0 0 20 20" aria-hidden="true" class="pause-icon"
+              ><path d="M7 5v10M13 5v10"></path></svg
+            ><svg viewBox="0 0 20 20" aria-hidden="true" class="play-icon"
+              ><path d="m7 4 9 6-9 6Z"></path></svg
+            ><span>Motion on</span></button
+          >
+        </div>
+      </div>
+
+      <nodus-gallery
+        class="nodus-gallery"
+        role="region"
+        aria-roledescription="캐러셀"
+        aria-label="프로젝트 카드"
+        tabindex="0"
+      >
+        <div class="gallery-window">
+          <div class="gallery-floor" aria-hidden="true"></div>
+          <div class="gallery-stage">
+            {
+              posts.map((post, index) => (
+                <div
+                  class="project-slot"
+                  data-card-slot
+                  style={`--card-order:${index}`}
+                >
+                  <div class="card-float">
+                    <a
+                      class="project-card"
+                      href={getPostUrl(post.id, post.filePath)}
+                      data-card
+                      data-preview={post.data.previewVideo}
+                      data-youtube={post.data.previewYoutube}
+                      aria-label={post.data.title}
+                    >
+                      <div class="card-media">
+                        <img
+                          src={
+                            post.data.cover ??
+                            "/media/images/motion-planning.jpg"
+                          }
+                          alt={post.data.coverAlt ?? post.data.title}
+                          width="768"
+                          height="480"
+                          loading={index < 2 ? "eager" : "lazy"}
+                          decoding="async"
+                        />
+                        {post.data.previewVideo && (
+                          <video
+                            muted
+                            loop
+                            playsinline
+                            preload="none"
+                            aria-hidden="true"
+                            disablepictureinpicture
+                            data-local-preview
+                          >
+                            <source
+                              data-src={post.data.previewVideo}
+                              type="video/mp4"
+                            />
+                          </video>
+                        )}
+                        <div class="card-vignette" />
+                        <span class="card-category">{post.data.category}</span>
+                        <span class="preview-status">
+                          <>
+                            <svg viewBox="0 0 16 16" aria-hidden="true">
+                              <path d="m6 3 7 5-7 5Z" />
+                            </svg>
+                            <span data-preview-label>Preview</span>
+                          </>
+                        </span>
+                      </div>
+                      <div class="card-copy">
+                        <>
+                          <div class="card-date">
+                            <>
+                              <span>
+                                {new Intl.DateTimeFormat("en", {
+                                  month: "short",
+                                  year: "numeric",
+                                }).format(post.data.pubDatetime)}
+                              </span>
+                              <span>{String(index + 1).padStart(2, "0")}</span>
+                            </>
+                          </div>
+                          <h3>{post.data.title}</h3>
+                          <div class="card-bottom">
+                            <>
+                              <span>프로젝트 살펴보기</span>
+                              <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M6 18 18 6M6 6h12v12" />
+                              </svg>
+                            </>
+                          </div>
+                        </>
+                      </div>
+                    </a>
+                    {(post.data.previewVideo || post.data.previewYoutube) && (
+                      <button
+                        type="button"
+                        class="touch-preview"
+                        data-touch-preview
+                        aria-label={`${post.data.title} 영상 미리보기`}
+                        aria-pressed="false"
+                      >
+                        <svg viewBox="0 0 20 20" aria-hidden="true">
+                          <path d="m7 4 9 6-9 6Z" />
+                        </svg>
+                        <span>영상 미리보기</span>
+                      </button>
+                    )}
+                  </div>
+                  <div class="card-ground-shadow" aria-hidden="true" />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="gallery-controls">
+          <div class="gallery-position">
+            <span data-current-number>01</span><span class="position-rule"
+            ></span><span>{String(posts.length).padStart(2, "0")}</span>
+          </div>
+          <div class="gallery-dots" aria-label="프로젝트 선택">
+            {
+              posts.map((post, index) => (
+                <button
+                  type="button"
+                  data-select-card={index}
+                  aria-label={`${index + 1}번 프로젝트: ${post.data.title}`}
+                  aria-pressed={index === 0}
+                >
+                  <span />
+                </button>
+              ))
+            }
+          </div>
+          <div class="gallery-arrows">
+            <button type="button" data-previous aria-label="이전 프로젝트"
+              ><svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path d="M19 12H5m6-6-6 6 6 6"></path></svg
+              ></button
+            ><button type="button" data-next aria-label="다음 프로젝트"
+              ><svg viewBox="0 0 24 24" aria-hidden="true"
+                ><path d="M5 12h14m-6-6 6 6-6 6"></path></svg
+              ></button
+            >
+          </div>
+        </div>
+        <p
+          class="nodus-accessible"
+          role="status"
+          aria-live="polite"
+          data-gallery-announcement
+        >
+        </p>
+      </nodus-gallery>
+      <div class="collection-footer">
+        <p>
+          <span class="desktop-instruction"
+            >마우스를 올려 동작을 보고, 클릭해 과정을 살펴보세요.</span
+          ><span class="mobile-instruction"
+            >옆으로 넘겨 프로젝트를 살펴보세요.</span
+          >
+        </p><a href="/posts/"
+          >모든 기록 보기 <svg viewBox="0 0 24 24" aria-hidden="true"
+            ><path d="M5 12h14m-6-6 6 6-6 6"></path></svg
+          ></a
+        >
+      </div>
+    </section>
+  </main>
+  <footer class="nodus-footer">
+    <span>© {new Date().getFullYear()} Project Nodus</span><span
+      class="footer-note">A personal exploration of robotics.</span
+    ><div>
+      <a href="/about/">윤정길</a><span aria-hidden="true">/</span><a
+        href="/rss.xml">RSS</a
+      >
+    </div>
+  </footer>
+</div>
+<script>
+  import "@/scripts/nodus-home";
+</script>

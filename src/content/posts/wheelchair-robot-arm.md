@@ -1,4 +1,7 @@
 ---
+cover: /media/images/wheelchair-arm.jpg
+coverAlt: 휠체어에 장착한 로봇팔의 실제 물체 파지 장면
+previewVideo: /media/previews/wheelchair-arm.mp4
 title: 음성 명령으로 물체를 집는 휠체어 장착형 로봇팔 제작
 pubDatetime: 2026-10-17T00:05:00+09:00
 category: 로봇 제작
