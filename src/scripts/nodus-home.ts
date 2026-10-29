@@ -14,7 +14,7 @@ class NodusTitle extends HTMLElement {
         if (!signal.aborted) this.cleanup = createTitleScene(this, signal);
       })
       .catch(() => {
-        // The semantic title and sculpted CSS lettering remain available without WebGL.
+        // The inline poster and semantic heading remain visible without WebGL.
         this.dataset.renderer = "fallback";
       });
   }

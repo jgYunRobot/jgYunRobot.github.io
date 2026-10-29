@@ -240,41 +240,22 @@ html[data-home-page] {
 .nodus-title-stage[data-ready] .nodus-title-canvas {
   opacity: 1;
 }
-.nodus-title-fallback {
-  opacity: 0;
-  visibility: hidden;
+.nodus-title-poster {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0;
-  font-size: clamp(72px, 8.8vw, 124px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.055em;
-  color: var(--nodus-word);
-  text-shadow: var(--nodus-word-shadow);
-  transform: perspective(800px) rotateX(9deg);
+  display: block;
 }
-.nodus-title-fallback > span {
-  font-size: 0.62em;
+.nodus-title-poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-.nodus-title-fallback em {
-  color: var(--nodus-word-highlight);
-  font-style: normal;
+html[data-theme="dark"] .nodus-title-poster-light,
+html[data-theme="light"] .nodus-title-poster-dark {
+  display: none;
 }
-.nodus-title-fallback strong {
-  font-weight: inherit;
-}
-.nodus-title-nojs,
-.nodus-title-stage[data-renderer="fallback"] .nodus-title-fallback {
-  opacity: 1;
-  visibility: visible;
-}
-.nodus-title-stage[data-ready] .nodus-title-fallback {
-  opacity: 0;
+.nodus-title-stage[data-ready] .nodus-title-poster {
   visibility: hidden;
 }
 .hero-copy {
@@ -871,14 +852,6 @@ html[data-home-page] {
     height: 260px;
     margin-top: -12px;
     margin-bottom: -3px;
-  }
-  .nodus-title-fallback {
-    flex-direction: column;
-    gap: 0;
-    font-size: 72px;
-  }
-  .nodus-title-fallback > strong {
-    line-height: 1.2;
   }
   .hero-copy p {
     font-size: 12px;

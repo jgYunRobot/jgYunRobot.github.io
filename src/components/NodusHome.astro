@@ -4,6 +4,10 @@ import { getPostUrl } from "@/utils/getPostPaths";
 import "@/styles/nodus-home.css";
 import config from "@/config";
 import ThemePicker from "@/components/ThemePicker.astro";
+import desktopDarkPoster from "@/assets/title-posters/nodus-title-desktop-dark.webp?inline";
+import desktopLightPoster from "@/assets/title-posters/nodus-title-desktop-light.webp?inline";
+import mobileDarkPoster from "@/assets/title-posters/nodus-title-mobile-dark.webp?inline";
+import mobileLightPoster from "@/assets/title-posters/nodus-title-mobile-light.webp?inline";
 
 type Props = { posts: CollectionEntry<"posts">[] };
 const { posts } = Astro.props;
@@ -72,14 +76,38 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
 
       <h1 id="nodus-title" class="nodus-accessible">Project Nodus</h1>
       <nodus-title class="nodus-title-stage" aria-hidden="true">
-        <span class="nodus-title-fallback"
-          ><span>Project</span><strong><em>N</em>odus</strong></span
-        >
-        <noscript>
-          <span class="nodus-title-fallback nodus-title-nojs"
-            ><span>Project</span><strong><em>N</em>odus</strong></span
-          >
-        </noscript>
+        <picture class="nodus-title-poster nodus-title-poster-dark">
+          <source
+            media="(max-width: 640px)"
+            srcset={mobileDarkPoster}
+            width="572"
+            height="325"
+          />
+          <img
+            src={desktopDarkPoster}
+            width="766"
+            height="450"
+            alt=""
+            loading="eager"
+            decoding="sync"
+          />
+        </picture>
+        <picture class="nodus-title-poster nodus-title-poster-light">
+          <source
+            media="(max-width: 640px)"
+            srcset={mobileLightPoster}
+            width="572"
+            height="325"
+          />
+          <img
+            src={desktopLightPoster}
+            width="766"
+            height="450"
+            alt=""
+            loading="eager"
+            decoding="sync"
+          />
+        </picture>
         <canvas class="nodus-title-canvas"></canvas>
       </nodus-title>
       <div class="hero-copy">

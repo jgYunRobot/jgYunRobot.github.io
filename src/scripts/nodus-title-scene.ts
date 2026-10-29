@@ -135,6 +135,7 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   let visible = true;
   let frame = 0;
   let lastRender = 0;
+  let motionStarted = 0;
   let lastTick = 0;
   let accumulatedTime = 0;
   let layoutWidth = 0;
@@ -150,7 +151,7 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     if (width === layoutWidth && height === layoutHeight) return;
     layoutWidth = width;
     layoutHeight = height;
-    mobile = width < 640;
+    mobile = matchMedia("(max-width: 640px)").matches;
     renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.25 : 1.5));
     meshes[0].scale.setScalar(mobile ? 0.52 : 0.62);
     meshes[0].position.set(0, 1.3, 0);
@@ -160,7 +161,13 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     const bounds = new Box3().setFromObject(group);
     bounds.getSize(size);
     bounds.getCenter(center);
-    camera.aspect = width / height;
+    // Match the poster's camera and fit it like object-fit: contain at every size.
+    const referenceHeight = mobile ? 260 : 360;
+    const referenceWidth = Math.round(
+      (referenceHeight * size.x * 1.14) / (size.y * 1.4)
+    );
+    const scale = Math.min(width / referenceWidth, height / referenceHeight);
+    camera.aspect = referenceWidth / referenceHeight;
     const tangent = Math.tan((camera.fov * Math.PI) / 360);
     const distance = Math.max(
       (size.x / (2 * tangent * camera.aspect)) * 1.14,
@@ -168,14 +175,21 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     );
     camera.position.set(0, mobile ? 0.75 : 0.65, distance);
     camera.lookAt(0, center.y - 0.08, 0);
-    camera.updateProjectionMatrix();
+    camera.setViewOffset(
+      referenceWidth,
+      referenceHeight,
+      (referenceWidth - width / scale) / 2,
+      (referenceHeight - height / scale) / 2,
+      width / scale,
+      height / scale
+    );
     floor.position.y = bounds.min.y - 0.32;
     group.rotation.set(-0.055, -0.055, 0);
     renderer.setSize(width, height, false);
     if (visible && !document.hidden) render(performance.now());
   };
   const render = (now: number) => {
-    const time = now * 0.00032;
+    const time = motionStarted ? (now - motionStarted) * 0.00032 : 0;
     const delta = lastRender
       ? Math.min((now - lastRender) / 1000, 0.1)
       : 1 / 60;
@@ -273,7 +287,9 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   schedule();
   const revealFrame = requestAnimationFrame(() => {
     if (signal.aborted) return;
-    render(performance.now());
+    const now = performance.now();
+    render(now);
+    motionStarted = now;
     host.dataset.ready = "";
   });
 
