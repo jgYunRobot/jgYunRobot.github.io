@@ -42,11 +42,15 @@ description: 글 목록과 검색에 표시할 요약
 - 제목·작성자·주소·외부 링크: `astro-paper.config.ts`
 - 소개: `src/content/pages/about.md`
 - 테마 색상: `src/styles/theme.css`
-- 기본 다크 모드·사용자 테마 선택: `src/scripts/theme.ts`, `src/layouts/Layout.astro`
+- 시스템 연동·사용자 테마 선택: `src/scripts/theme.ts`, `src/layouts/Layout.astro`
 - 한글 UI: `src/i18n/lang/ko.ts`
 - 개인 미디어: `public/media/`
 
-OS의 화면 모드에 관계없이 첫 방문은 다크 모드입니다. 독자가 테마를 바꾸면 선택을 저장합니다.
+첫 방문은 시스템의 라이트·다크 설정을 따릅니다. 테마 선택기에서 시스템/라이트/다크를 고를 수 있고, 수동 선택은 저장합니다. 시스템 모드에서는 OS 설정이 바뀌면 즉시 반영합니다.
+홈의 두 팔레트는 `src/styles/nodus-home.css`, 일반 문서는 `src/styles/theme.css`에서 직접 정의합니다.
+페이지 바탕과 브라우저 테마색, 기본 UI color-scheme, 3D 글자 재질도 함께 바뀝니다.
+삼성 인터넷의 별도 강제 다크 설정은 사이트 선언을 무시할 수 있어 실기기 확인이 필요합니다.
+기본 우클릭 메뉴는 `src/scripts/site-interactions.ts`에서 차단합니다. 외부 iframe 내부 메뉴는 해당 서비스에서 처리합니다.
 
 ## GitHub Pages
 

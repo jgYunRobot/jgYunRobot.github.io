@@ -1,54 +1,68 @@
 const THEME_KEY = "theme";
 type Theme = "light" | "dark";
+type ThemePreference = Theme | "system";
+const systemTheme = matchMedia("(prefers-color-scheme: dark)");
 
-function readTheme(): Theme {
+function readPreference(): ThemePreference {
   try {
-    return localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
+    const stored = localStorage.getItem(THEME_KEY);
+    return stored === "light" || stored === "dark" ? stored : "system";
   } catch {
-    return "dark";
+    return "system";
   }
 }
 
-let theme: Theme = readTheme();
+let preference: ThemePreference = readPreference();
 
 function reflect(): void {
-  document.documentElement.dataset.theme = theme;
-  document.documentElement.classList.toggle("dark", theme === "dark");
-  const button = document.querySelector<HTMLButtonElement>("#theme-btn");
-  button?.setAttribute(
-    "aria-label",
-    theme === "dark" ? "밝은 모드로 전환" : "어두운 모드로 전환"
-  );
-  button?.setAttribute(
-    "title",
-    theme === "dark" ? "밝은 모드로 전환" : "어두운 모드로 전환"
-  );
+  const theme: Theme =
+    preference === "system"
+      ? systemTheme.matches
+        ? "dark"
+        : "light"
+      : preference;
+  const root = document.documentElement;
+  root.dataset.theme = theme;
+  root.dataset.themePreference = preference;
+  root.classList.toggle("dark", theme === "dark");
+  document
+    .querySelectorAll<HTMLSelectElement>("[data-theme-select]")
+    .forEach(select => {
+      select.value = preference;
+    });
   document
     .querySelector("meta[name='theme-color']")
     ?.setAttribute("content", getComputedStyle(document.body).backgroundColor);
+  window.dispatchEvent(new CustomEvent("nodus:theme", { detail: { theme } }));
 }
 
 function setup(): void {
   reflect();
-  const button = document.querySelector<HTMLButtonElement>("#theme-btn");
-  if (!button || button.dataset.bound === "true") return;
-  button.dataset.bound = "true";
-  button.addEventListener("click", () => {
-    theme = theme === "dark" ? "light" : "dark";
-    try {
-      localStorage.setItem(THEME_KEY, theme);
-    } catch {
-      /* Keep session choice. */
-    }
-    reflect();
-  });
+  document
+    .querySelectorAll<HTMLSelectElement>("[data-theme-select]")
+    .forEach(select => {
+      if (select.dataset.bound === "true") return;
+      select.dataset.bound = "true";
+      select.addEventListener("change", () => {
+        preference = select.value as ThemePreference;
+        try {
+          localStorage.setItem(THEME_KEY, preference);
+        } catch {
+          /* Keep the session choice. */
+        }
+        reflect();
+      });
+    });
 }
 
 setup();
 document.addEventListener("astro:after-swap", setup);
+systemTheme.addEventListener("change", () => {
+  if (preference === "system") reflect();
+});
 window.addEventListener("storage", event => {
-  if (event.key === THEME_KEY) {
-    theme = event.newValue === "light" ? "light" : "dark";
+  if (event.key === THEME_KEY || event.key === null) {
+    preference = readPreference();
     reflect();
   }
 });

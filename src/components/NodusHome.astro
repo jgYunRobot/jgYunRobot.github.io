@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { getPostUrl } from "@/utils/getPostPaths";
 import "@/styles/nodus-home.css";
 import config from "@/config";
+import ThemePicker from "@/components/ThemePicker.astro";
 
 type Props = { posts: CollectionEntry<"posts">[] };
 const { posts } = Astro.props;
@@ -61,6 +62,7 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
           ></path></svg
         ></a
       >
+      <ThemePicker locale="en" class="nodus-theme-picker" />
     </nav>
   </header>
 

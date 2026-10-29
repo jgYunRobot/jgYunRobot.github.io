@@ -14,6 +14,7 @@ const posts = getSortedPosts(await getCollection("posts")).sort(
 <Layout
   title="Project Nodus"
   lang="en"
+  homePage
   description="Exploring robot control, motion planning, and Physical AI through hands-on projects and experiments."
 >
   <NodusHome posts={posts} />

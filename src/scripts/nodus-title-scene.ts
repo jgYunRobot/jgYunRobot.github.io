@@ -12,6 +12,7 @@ import {
   PlaneGeometry,
   PMREMGenerator,
   Scene,
+  SRGBColorSpace,
   SpotLight,
   Vector3,
   WebGLRenderer,
@@ -33,6 +34,7 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     Math.min(devicePixelRatio, host.clientWidth < 640 ? 1.25 : 1.5)
   );
   renderer.setClearColor(0x080b0e, 0);
+  renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.18;
   renderer.shadowMap.enabled = true;
@@ -115,6 +117,17 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   floor.receiveShadow = true;
   scene.add(floor);
 
+  const applyTheme = () => {
+    const dark = document.documentElement.dataset.theme === "dark";
+    front.color.setHex(dark ? 0xdfe6e9 : 0x20292c);
+    edge.color.setHex(dark ? 0x606f7b : 0x455057);
+    highlight.color.setHex(dark ? 0x64e6bc : 0x087c55);
+    highlight.emissive.setHex(dark ? 0x167850 : 0x064a30);
+    highlight.emissiveIntensity = dark ? 0.38 : 0.12;
+    floorMaterial.opacity = dark ? 0.32 : 0.2;
+    renderer.setClearColor(dark ? 0x080b0e : 0xedf1ef, 0);
+  };
+  applyTheme();
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let paused =
     reduced.matches ||
@@ -195,6 +208,14 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     render(lastTick);
     if (!paused) frame = requestAnimationFrame(tick);
   };
+  window.addEventListener(
+    "nodus:theme",
+    () => {
+      applyTheme();
+      schedule();
+    },
+    { signal }
+  );
   host.addEventListener(
     "pointerenter",
     () => {

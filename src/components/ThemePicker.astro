@@ -1,0 +1,27 @@
+---
+import "@/styles/theme-picker.css";
+type Props = { locale?: string; class?: string };
+const { locale = "en", class: className } = Astro.props;
+const korean = locale.startsWith("ko");
+---
+
+<label class:list={["theme-picker", className]}>
+  <span class="theme-picker-label">{korean ? "화면 테마" : "Color theme"}</span>
+  <svg class="theme-system-icon" viewBox="0 0 24 24" aria-hidden="true"
+    ><rect x="3" y="4" width="18" height="13" rx="2"></rect><path
+      d="M8 21h8m-4-4v4"></path></svg
+  >
+  <svg class="theme-light-icon" viewBox="0 0 24 24" aria-hidden="true"
+    ><circle cx="12" cy="12" r="4"></circle><path
+      d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"
+    ></path></svg
+  >
+  <svg class="theme-dark-icon" viewBox="0 0 24 24" aria-hidden="true"
+    ><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"></path></svg
+  >
+  <select data-theme-select aria-label={korean ? "화면 테마" : "Color theme"}>
+    <option value="system">{korean ? "시스템 설정" : "System"}</option>
+    <option value="light">{korean ? "라이트" : "Light"}</option>
+    <option value="dark">{korean ? "다크" : "Dark"}</option>
+  </select>
+</label>

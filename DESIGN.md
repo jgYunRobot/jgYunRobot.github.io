@@ -2,10 +2,14 @@
 
 ## Direction
 
-A dark robotics atelier: a lit, extruded metal wordmark above a floating filmstrip of actual projects. The home is an exhibition entrance; article pages remain readable technical documents. Inspired by the restraint, real photography and fine dividers in the BMW M design analysis, without copying its identity or typography.
+A robotics atelier with authored light and dark palettes: a lit, extruded metal wordmark above a floating filmstrip of actual projects. The home is an exhibition entrance; article pages remain readable technical documents. Inspired by the restraint, real photography and fine dividers in the BMW M design analysis, without copying its identity or typography.
 
-- Background: ink #080b0e. Text: cool white #edf1f3. Muted: #a3aeb7. Accent: existing mint, refined to #9ed8c5.
-- Title: real Three.js beveled text, silver front and graphite sides, white key light, mint rim, ground shadows. Two lines on all screen sizes, with only the N highlighted in mint; gentle pointer response.
+- Dark palette: ink #080b0e, cool white #edf1f3, muted #a3aeb7, mint #9ed8c5.
+- Light palette: mist #edf1ef, deep green text #172d28, muted #536a63, green #176e52, white cards.
+- Theme defaults to the system preference and updates live; the native System/Light/Dark picker can override it. CSS color-scheme and HTML metadata declare the supported palettes, and the document background and theme-color match the actual page. Existing explicit theme choices remain valid.
+- Card shadows use dark gradients without filter blur or white inset highlights to reduce mobile compositing halos. Browser-forced dark transforms remain controlled by the browser.
+- The page context menu is suppressed through one document listener, retained across Astro navigation. Cross-origin player menus are owned by their embedded provider.
+- Title: real Three.js beveled text, silver front in dark mode and graphite front in light mode, white key and rim lights, ground shadows. Two lines on all screen sizes, with only the N highlighted in mint; gentle pointer response.
 - Home language: English copy, navigation and accessibility labels. English card metadata lives alongside the original article metadata; article text and language remain intact.
 - Timeline: the centered card’s date appears below the deck as YYYY.MM.DD in the configured site timezone. Existing posts have source-compared approximate last-work dates in homeDate; new posts default to the blog registration date (pubDatetime). The deck sorts oldest to newest from left to right by this date, independent of later edits. It opens on the latest project and wraps at both ends as a circular carousel. Digit reels roll on date changes, settle on the exact date, and respect pause/reduced-motion preferences.
 - Gallery: project video stills, descriptive titles, categories and dates. Perspective makes the current card central and side cards recede. Each card floats independently and lifts on hover/focus.
