@@ -3,11 +3,8 @@ import type { CollectionEntry } from "astro:content";
 import { getPostUrl } from "@/utils/getPostPaths";
 import "@/styles/nodus-home.css";
 import config from "@/config";
-import ThemePicker from "@/components/ThemePicker.astro";
 import desktopDarkPoster from "@/assets/title-posters/nodus-title-desktop-dark.webp?inline";
-import desktopLightPoster from "@/assets/title-posters/nodus-title-desktop-light.webp?inline";
 import mobileDarkPoster from "@/assets/title-posters/nodus-title-mobile-dark.webp?inline";
-import mobileLightPoster from "@/assets/title-posters/nodus-title-mobile-light.webp?inline";
 
 type Props = { posts: CollectionEntry<"posts">[] };
 const { posts } = Astro.props;
@@ -47,6 +44,12 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
 ---
 
 <div class="nodus-home" data-nodus-home>
+  <canvas
+    class="nodus-surface nodus-home-surface"
+    width="1"
+    height="1"
+    data-surface-color="#080b0e"
+    aria-hidden="true"></canvas>
   <a class="nodus-skip" href="#project-gallery">Skip to projects</a>
   <header class="nodus-header">
     <a href="/" class="nodus-brand" aria-label="Project Nodus home">
@@ -66,7 +69,6 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
           ></path></svg
         ></a
       >
-      <ThemePicker locale="en" class="nodus-theme-picker" />
     </nav>
   </header>
 
@@ -76,7 +78,7 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
 
       <h1 id="nodus-title" class="nodus-accessible">Project Nodus</h1>
       <nodus-title class="nodus-title-stage" aria-hidden="true">
-        <picture class="nodus-title-poster nodus-title-poster-dark">
+        <picture class="nodus-title-poster">
           <source
             media="(max-width: 640px)"
             srcset={mobileDarkPoster}
@@ -85,22 +87,6 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
           />
           <img
             src={desktopDarkPoster}
-            width="766"
-            height="450"
-            alt=""
-            loading="eager"
-            decoding="sync"
-          />
-        </picture>
-        <picture class="nodus-title-poster nodus-title-poster-light">
-          <source
-            media="(max-width: 640px)"
-            srcset={mobileLightPoster}
-            width="572"
-            height="325"
-          />
-          <img
-            src={desktopLightPoster}
             width="766"
             height="450"
             alt=""
@@ -190,6 +176,13 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
                         data-timeline-date={timelineDate}
                         data-timeline-label={timelineLabel}
                       >
+                        <canvas
+                          class="nodus-surface"
+                          width="1"
+                          height="1"
+                          data-surface-color="#161d23"
+                          aria-hidden="true"
+                        />
                         <div class="card-media">
                           <img
                             src={
@@ -201,6 +194,13 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
                             height="480"
                             loading={index < 2 ? "eager" : "lazy"}
                             decoding="async"
+                          />
+                          <canvas
+                            class="card-thumbnail"
+                            width="1"
+                            height="1"
+                            data-thumbnail-canvas
+                            aria-hidden="true"
                           />
                           {post.data.previewVideo && (
                             <video

@@ -50,6 +50,36 @@ class NodusGallery extends HTMLElement {
       this.querySelectorAll<HTMLButtonElement>("[data-select-card]")
     );
     const home = this.closest<HTMLElement>("[data-nodus-home]")!;
+    // Paint solid surfaces once: Samsung force-dark rewrites CSS fills but retains canvas sRGB.
+    home
+      .querySelectorAll<HTMLCanvasElement>("[data-surface-color]")
+      .forEach(canvas => {
+        const context = canvas.getContext("2d", {
+          alpha: false,
+          colorSpace: "srgb",
+        })!;
+        context.fillStyle = canvas.dataset.surfaceColor!;
+        context.fillRect(0, 0, 1, 1);
+      });
+    cards.forEach(card => {
+      const image = card.querySelector<HTMLImageElement>(".card-media > img")!;
+      const canvas = card.querySelector<HTMLCanvasElement>(
+        "[data-thumbnail-canvas]"
+      )!;
+      const paintThumbnail = () => {
+        canvas.width = Math.min(image.naturalWidth, 768);
+        canvas.height = Math.round(
+          (canvas.width * image.naturalHeight) / image.naturalWidth
+        );
+        canvas
+          .getContext("2d", { colorSpace: "srgb" })!
+          .drawImage(image, 0, 0, canvas.width, canvas.height);
+        canvas.parentElement!.dataset.thumbnailReady = "";
+      };
+      if (image.complete && image.naturalWidth) paintThumbnail();
+      else
+        image.addEventListener("load", paintThumbnail, { once: true, signal });
+    });
     const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
     const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
     const motionButton = home.querySelector<HTMLButtonElement>(

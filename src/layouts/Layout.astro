@@ -44,7 +44,7 @@ const rssHref = getRelativeLocaleUrl(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content={homePage ? "dark" : "light dark"} />
     <link rel="icon" type="image/svg+xml" href={getAssetPath("favicon.svg")} />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
@@ -80,7 +80,7 @@ const rssHref = getRelativeLocaleUrl(
     />
 
     <!-- Filled at runtime by theme.ts to match the current background colour -->
-    <meta name="theme-color" content="" />
+    <meta name="theme-color" content={homePage ? "#080b0e" : ""} />
 
     <!-- Extra head content injected by child layouts (e.g. JSON-LD, article meta) -->
     <slot name="head" />
@@ -107,13 +107,14 @@ const rssHref = getRelativeLocaleUrl(
         } catch {
           /* Storage can be unavailable in private browsing. */
         }
-        const theme =
-          preference === "system"
+        const root = document.documentElement;
+        const theme = root.hasAttribute("data-home-page")
+          ? "dark"
+          : preference === "system"
             ? matchMedia("(prefers-color-scheme: dark)").matches
               ? "dark"
               : "light"
             : preference;
-        const root = document.documentElement;
         root.dataset.themePreference = preference;
         root?.setAttribute("data-theme", theme);
         root?.classList.toggle("dark", theme === "dark");

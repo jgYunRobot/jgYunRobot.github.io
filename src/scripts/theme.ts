@@ -15,13 +15,15 @@ function readPreference(): ThemePreference {
 let preference: ThemePreference = readPreference();
 
 function reflect(): void {
-  const theme: Theme =
-    preference === "system"
+  const root = document.documentElement;
+  const homePage = root.hasAttribute("data-home-page");
+  const theme: Theme = homePage
+    ? "dark"
+    : preference === "system"
       ? systemTheme.matches
         ? "dark"
         : "light"
       : preference;
-  const root = document.documentElement;
   root.dataset.theme = theme;
   root.dataset.themePreference = preference;
   root.classList.toggle("dark", theme === "dark");
@@ -30,6 +32,9 @@ function reflect(): void {
     .forEach(select => {
       select.value = preference;
     });
+  document
+    .querySelector("meta[name='color-scheme']")
+    ?.setAttribute("content", homePage ? "dark" : "light dark");
   document
     .querySelector("meta[name='theme-color']")
     ?.setAttribute("content", getComputedStyle(document.body).backgroundColor);

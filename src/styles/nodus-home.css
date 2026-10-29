@@ -1,37 +1,13 @@
-:root {
-  --nodus-ink: #edf1ef;
-  --nodus-text: #172d28;
-  --nodus-muted: #536a63;
-  --nodus-mint: #176e52;
-  --nodus-line: #193b2929;
-  --nodus-card: #ffffff;
-  --nodus-card-border: #355a4540;
-  --nodus-control: #e0e8e3;
-  --nodus-control-hover: #d1e1d8;
-  --nodus-dot: #44675666;
-  --nodus-selection: #176e5230;
-  --nodus-focus: #176e5299;
-  --nodus-ambient-one: #87b09a1f;
-  --nodus-ambient-two: #5a9f7d0d;
-  --nodus-floor-one: #405f4b1a;
-  --nodus-floor-two: #405f4b08;
-  --nodus-word: #2a3437;
-  --nodus-word-highlight: #147b56;
-  --nodus-word-shadow:
-    0 1px #ffffff8c, 1px 3px #6d877a, 2px 5px #9baea3, 3px 7px #c0cdc6,
-    4px 12px 15px #193b2925, 0 22px 34px #193b291f;
-  --nodus-card-shadow: 0 16px 34px -14px #173b2933, 0 36px 56px -30px #173b292e;
-  --nodus-lift-shadow: 0 24px 45px -17px #173b2940, 0 44px 65px -28px #173b2933;
-  --nodus-ground-opacity: 0.3;
-}
-[data-theme="dark"] {
+html[data-home-page] {
+  color-scheme: dark;
+  color-scheme: only dark;
   --nodus-ink: #080b0e;
   --nodus-text: #edf1f3;
   --nodus-muted: #a3aeb7;
   --nodus-mint: #9ed8c5;
-  --nodus-line: #ffffff18;
+  --nodus-line: #1f252b;
   --nodus-card: #161d23;
-  --nodus-card-border: #72828d4a;
+  --nodus-card-border: #313a42;
   --nodus-control: #11181b;
   --nodus-control-hover: #1c2b2a;
   --nodus-dot: #71828e7a;
@@ -46,15 +22,14 @@
   --nodus-word-shadow:
     0 1px #fff, 1px 3px #939ea5, 2px 5px #46515a, 3px 7px #262d34,
     4px 12px 15px #000, 0 30px 40px #000;
-  --nodus-card-shadow: 0 16px 34px -14px #000c, 0 42px 60px -32px #000;
-  --nodus-lift-shadow: 0 24px 45px -17px #000e, 0 52px 75px -23px #000;
   --nodus-ground-opacity: 0.68;
-}
-html[data-home-page] {
   --background: var(--nodus-ink);
+  --foreground: var(--nodus-text);
   background: var(--nodus-ink);
 }
 .nodus-home {
+  position: relative;
+  isolation: isolate;
   width: 100%;
   min-height: 100svh;
   overflow: clip;
@@ -65,6 +40,18 @@ html[data-home-page] {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+.nodus-surface {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+.nodus-home-surface {
+  position: fixed;
 }
 .nodus-home ::selection {
   background: var(--nodus-selection);
@@ -163,10 +150,6 @@ html[data-home-page] {
   bottom: 5px;
   left: 50%;
 }
-.nodus-theme-picker {
-  width: 26px;
-  height: 36px;
-}
 .nodus-search svg {
   width: 19px;
   height: 19px;
@@ -250,10 +233,6 @@ html[data-home-page] {
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-html[data-theme="dark"] .nodus-title-poster-light,
-html[data-theme="light"] .nodus-title-poster-dark {
-  display: none;
 }
 .nodus-title-stage[data-ready] .nodus-title-poster {
   visibility: hidden;
@@ -405,6 +384,7 @@ html[data-theme="light"] .nodus-title-poster-dark {
     var(--nodus-floor-two) 45%,
     transparent 72%
   );
+  mix-blend-mode: multiply;
   z-index: -1;
 }
 .project-slot {
@@ -420,12 +400,27 @@ html[data-theme="light"] .nodus-title-poster-dark {
   animation: nodus-float 6s ease-in-out infinite;
   animation-delay: calc(var(--card-order) * -0.85s);
 }
+.card-float::before {
+  content: "";
+  position: absolute;
+  inset: -20px -44px -70px;
+  background: url("../assets/effects/nodus-card-shadow.webp") center / 100% 100%
+    no-repeat;
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+  transform: translateZ(-2px);
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.card-float:has(.project-card:is(:hover, :focus-visible))::before {
+  opacity: 1;
+}
 .project-card {
+  position: relative;
   display: block;
   border-radius: 12px;
   background: var(--nodus-card);
   border: 1px solid var(--nodus-card-border);
-  box-shadow: var(--nodus-card-shadow);
   overflow: hidden;
   transition:
     transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -436,12 +431,13 @@ html[data-theme="light"] .nodus-title-poster-dark {
 }
 .card-media {
   position: relative;
+  isolation: isolate;
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
-  background: #1a2328;
+  background: transparent;
 }
-.card-media > :is(img, video, iframe) {
+.card-media > :is(img, canvas, video, iframe) {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -450,11 +446,24 @@ html[data-theme="light"] .nodus-title-poster-dark {
   border: 0;
   pointer-events: none;
 }
-.card-media > img {
+.card-media > :is(img, canvas) {
   transition:
     transform 0.65s,
     opacity 0.65s;
   opacity: 0.83;
+}
+.card-thumbnail {
+  visibility: hidden;
+}
+.card-media[data-thumbnail-ready] > img,
+.project-card:is(:hover, :focus-visible)
+  .card-media[data-thumbnail-ready]
+  > img {
+  opacity: 0;
+  transition: none;
+}
+.card-media[data-thumbnail-ready] > .card-thumbnail {
+  visibility: visible;
 }
 .card-media video,
 .card-media iframe {
@@ -466,6 +475,7 @@ html[data-theme="light"] .nodus-title-poster-dark {
 }
 .card-vignette {
   position: absolute;
+  mix-blend-mode: multiply;
   inset: 0;
   background: linear-gradient(
     180deg,
@@ -480,7 +490,7 @@ html[data-theme="light"] .nodus-title-poster-dark {
   top: 15px;
   left: 16px;
   padding: 3px 8px;
-  border: 1px solid #ffffff32;
+  border: 1px solid #354149;
   background: #081015cf;
   color: #fff;
   font-size: 9px;
@@ -498,7 +508,7 @@ html[data-theme="light"] .nodus-title-poster-dark {
   font-size: 9px;
   color: #e8f0ef;
   background: #071010a6;
-  border: 1px solid #ffffff1a;
+  border: 1px solid #29343a;
   border-radius: 4px;
 }
 .preview-status svg {
@@ -554,9 +564,8 @@ html[data-theme="light"] .nodus-title-poster-dark {
 .project-card:is(:hover, :focus-visible) {
   transform: translateY(-24px) translateZ(36px) rotateX(2deg);
   border-color: var(--nodus-mint);
-  box-shadow: var(--nodus-lift-shadow);
 }
-.project-card:is(:hover, :focus-visible) .card-media > img {
+.project-card:is(:hover, :focus-visible) .card-media > :is(img, canvas) {
   transform: scale(1.035);
   opacity: 1;
 }
@@ -572,7 +581,9 @@ html[data-theme="light"] .nodus-title-poster-dark {
   right: 11%;
   bottom: -45px;
   height: 54px;
-  background: radial-gradient(ellipse closest-side, #000d, #0000 80%);
+  background: url("../assets/effects/nodus-ground-shadow.webp") center / 100%
+    100% no-repeat;
+  mix-blend-mode: multiply;
   border-radius: 50%;
   opacity: var(--nodus-ground-opacity);
   transform: rotateX(70deg);
