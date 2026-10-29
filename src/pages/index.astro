@@ -4,12 +4,17 @@ import Layout from "@/layouts/Layout.astro";
 import NodusHome from "@/components/NodusHome.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 
-const posts = getSortedPosts(await getCollection("posts"));
+const posts = getSortedPosts(await getCollection("posts")).sort(
+  (a, b) =>
+    (a.data.homeDate ?? a.data.pubDatetime).getTime() -
+    (b.data.homeDate ?? b.data.pubDatetime).getTime()
+);
 ---
 
 <Layout
   title="Project Nodus"
-  description="로봇 제어부터 Physical AI까지. 직접 만들고, 움직이고, 검증한 프로젝트의 기록."
+  lang="en"
+  description="Exploring robot control, motion planning, and Physical AI through hands-on projects and experiments."
 >
   <NodusHome posts={posts} />
 </Layout>

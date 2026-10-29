@@ -1,4 +1,8 @@
 ---
+homeDate: 2026-10-06T00:00:00+09:00
+homeTitle: Moving Frames & Dynamic TCP Offsets
+homeCategory: Motion & Kinematics
+homeCoverAlt: A simulation combining moving reference frames and TCP offsets
 cover: /media/images/frame-motion.jpg
 coverAlt: 기준 프레임과 TCP의 복합 모션 시뮬레이션
 previewVideo: /media/previews/frame-motion.mp4

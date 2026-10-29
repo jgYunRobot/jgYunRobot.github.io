@@ -1,4 +1,8 @@
 ---
+homeDate: 2026-08-02T00:00:00+09:00
+homeTitle: From Teleoperation to SmolVLA Control
+homeCategory: Physical AI
+homeCoverAlt: A leader arm controlling a real robot during teleoperation
 cover: /media/images/teleoperation.jpg
 coverAlt: 리더 암으로 실제 로봇을 원격 조작하는 장면
 previewVideo: /media/previews/teleoperation.mp4

@@ -1,4 +1,8 @@
 ---
+homeDate: 2026-10-29T00:00:00+09:00
+homeTitle: Torque, Friction & Deflection Compensation
+homeCategory: Robot Control
+homeCoverAlt: Side-by-side real robot motion with friction compensation off and on
 cover: /media/images/torque-control-cover.jpg
 coverAlt: 마찰 보상 OFF·ON으로 나란히 동작하는 실제 로봇
 previewYoutube: 9N0JM_-uXR0

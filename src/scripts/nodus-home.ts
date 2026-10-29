@@ -31,6 +31,8 @@ class NodusGallery extends HTMLElement {
   private active = 0;
   private preview?: HTMLAnchorElement;
   private manualPreview = false;
+  private dateAnimations: Animation[] = [];
+  private dragFrame = 0;
 
   connectedCallback() {
     const controller = new AbortController();
@@ -52,16 +54,17 @@ class NodusGallery extends HTMLElement {
       "[data-motion-toggle]"
     )!;
     let paused = reducedMotion.matches;
-    this.active = 0;
+    this.active = cards.length - 1;
 
     const setMotion = (value: boolean) => {
       paused = value || reducedMotion.matches;
+      if (paused) this.dateAnimations.forEach(animation => animation.cancel());
       motionButton.disabled = reducedMotion.matches;
       home.dataset.motion = paused ? "paused" : "running";
       motionButton.setAttribute("aria-pressed", String(paused));
       motionButton.setAttribute(
         "aria-label",
-        paused ? "배경 움직임 재개" : "배경 움직임 일시 정지"
+        paused ? "Resume background motion" : "Pause background motion"
       );
       motionButton.querySelector("span")!.textContent = paused
         ? "Motion off"
@@ -83,8 +86,15 @@ class NodusGallery extends HTMLElement {
       { signal }
     );
 
+    let previousWidth = -1;
+    let previousActive = -1;
     const layout = () => {
       const width = this.clientWidth;
+      if (width === previousWidth && this.active === previousActive) return;
+      const initialLayout = previousActive === -1;
+      const selectionChanged = this.active !== previousActive;
+      previousWidth = width;
+      previousActive = this.active;
       const step =
         width < 640
           ? Math.min(width * 0.82, 350)
@@ -122,7 +132,7 @@ class NodusGallery extends HTMLElement {
         slot.toggleAttribute("data-outside", magnitude > 1);
         slot.inert = magnitude > 1;
         slot.setAttribute("role", "group");
-        slot.setAttribute("aria-roledescription", "슬라이드");
+        slot.setAttribute("aria-roledescription", "slide");
         slot.setAttribute("aria-label", `${index + 1} / ${cards.length}`);
         slot.toggleAttribute("data-current", distance === 0);
         dots[index].setAttribute("aria-pressed", String(distance === 0));
@@ -130,13 +140,18 @@ class NodusGallery extends HTMLElement {
       this.querySelector("[data-current-number]")!.textContent = String(
         this.active + 1
       ).padStart(2, "0");
-      this.querySelector("[data-gallery-announcement]")!.textContent =
-        `${this.active + 1} / ${cards.length}: ${cards[this.active].getAttribute("aria-label")}`;
+      if (selectionChanged) {
+        this.updateTimelineDate(cards[this.active], !paused && !initialLayout);
+        this.querySelector("[data-gallery-announcement]")!.textContent =
+          `${this.active + 1} of ${cards.length}: ${cards[this.active].getAttribute("aria-label")}. ${cards[this.active].dataset.timelineLabel}.`;
+      }
       this.setAttribute("data-enhanced", "");
     };
     const select = (index: number) => {
+      const next = (index + cards.length) % cards.length;
+      if (next === this.active) return;
       this.stopPreview();
-      this.active = (index + cards.length) % cards.length;
+      this.active = next;
       layout();
     };
     this.querySelector("[data-previous]")!.addEventListener(
@@ -208,11 +223,50 @@ class NodusGallery extends HTMLElement {
       );
     });
 
+    const wheelArea = this.querySelector<HTMLElement>(".gallery-window")!;
+    let wheelTravel = 0;
+    let lastWheelTime = 0;
+    let lastWheelStep = -Infinity;
+    wheelArea.addEventListener(
+      "wheel",
+      event => {
+        if (event.ctrlKey || event.altKey || event.metaKey) return;
+        const delta =
+          Math.abs(event.deltaX) > Math.abs(event.deltaY)
+            ? event.deltaX
+            : event.deltaY;
+        if (!delta) return;
+        const now = performance.now();
+        event.preventDefault();
+        if (
+          now - lastWheelTime > 160 ||
+          Math.sign(delta) !== Math.sign(wheelTravel)
+        )
+          wheelTravel = 0;
+        lastWheelTime = now;
+        if (now - lastWheelStep < 450) return;
+        const scale =
+          event.deltaMode === 1
+            ? 16
+            : event.deltaMode === 2
+              ? wheelArea.clientHeight
+              : 1;
+        wheelTravel += delta * scale;
+        if (Math.abs(wheelTravel) >= 50) {
+          select(this.active + (wheelTravel > 0 ? 1 : -1));
+          lastWheelStep = now;
+          wheelTravel = 0;
+        }
+      },
+      { signal, passive: false }
+    );
+
     let startX = 0;
     let startY = 0;
     let pointer: number | undefined;
     let dragging = false;
     let suppressClickUntil = 0;
+    let dragOffset = 0;
     const stage = this.querySelector<HTMLElement>(".gallery-stage")!;
     this.addEventListener(
       "pointerdown",
@@ -242,7 +296,12 @@ class NodusGallery extends HTMLElement {
         }
         if (dragging) {
           event.preventDefault();
-          stage.style.transform = `translateX(${Math.max(-50, Math.min(50, dx * 0.2))}px)`;
+          dragOffset = Math.max(-50, Math.min(50, dx * 0.2));
+          if (!this.dragFrame)
+            this.dragFrame = requestAnimationFrame(() => {
+              stage.style.transform = `translateX(${dragOffset}px)`;
+              this.dragFrame = 0;
+            });
         }
       },
       { signal }
@@ -257,6 +316,8 @@ class NodusGallery extends HTMLElement {
       }
       if (this.hasPointerCapture(event.pointerId))
         this.releasePointerCapture(event.pointerId);
+      cancelAnimationFrame(this.dragFrame);
+      this.dragFrame = 0;
       stage.style.transform = "";
       pointer = undefined;
       dragging = false;
@@ -276,21 +337,72 @@ class NodusGallery extends HTMLElement {
     this.addEventListener("dragstart", event => event.preventDefault(), {
       signal,
     });
-    document.addEventListener(
-      "visibilitychange",
-      () => {
-        if (document.hidden) this.stopPreview();
-      },
-      { signal }
-    );
+    let inView = true;
+    const syncActivity = () => {
+      const suspended = document.hidden || !inView;
+      this.toggleAttribute("data-suspended", suspended);
+      if (suspended) {
+        this.stopPreview();
+        this.dateAnimations.forEach(animation => animation.cancel());
+      }
+    };
+    document.addEventListener("visibilitychange", syncActivity, { signal });
     this.observer = new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting) this.stopPreview();
+      inView = entries[0].isIntersecting;
+      syncActivity();
     });
     this.observer.observe(this);
     this.resize = new ResizeObserver(layout);
     this.resize.observe(this);
     layout();
     sessionStorage.setItem("backUrl", "/");
+  }
+
+  private updateTimelineDate(card: HTMLAnchorElement, animate: boolean) {
+    const date = this.querySelector<HTMLTimeElement>("[data-current-date]")!;
+    const value = card.dataset.timelineDate!;
+    date.dateTime = card.dataset.timelineAt!;
+    this.querySelector("[data-current-date-label]")!.textContent =
+      card.dataset.timelineLabel!;
+    if (date.dataset.value === value) return;
+    date.dataset.value = value;
+    const strips = Array.from(
+      this.querySelectorAll<HTMLElement>("[data-date-digit]")
+    );
+    // Rebase repeating reels to their visible position before interrupting a roll.
+    // Read all transforms first so rapid wheel input does not alternate layout reads and writes.
+    const positions = animate
+      ? strips.map(strip => {
+          const style = getComputedStyle(strip);
+          const offset =
+            -new DOMMatrixReadOnly(style.transform).m42 /
+            parseFloat(style.fontSize);
+          return offset % 10;
+        })
+      : [];
+    this.dateAnimations.forEach(animation => animation.cancel());
+    this.dateAnimations = [];
+    const digits = value.replaceAll(".", "");
+    strips.forEach((strip, index) => {
+      const previous = positions[index];
+      const next = Number(digits[index]);
+      strip.dataset.dateDigit = String(next);
+      strip.style.transform = `translateY(-${next}em)`;
+      if (!animate) return;
+      const animation = strip.animate(
+        [
+          { transform: `translateY(-${previous}em)` },
+          { transform: `translateY(-${20 + next}em)` },
+        ],
+        {
+          duration: 620 + index * 35,
+          easing: "cubic-bezier(0.18, 0.7, 0.2, 1)",
+          fill: "forwards",
+        }
+      );
+      animation.onfinish = () => animation.cancel();
+      this.dateAnimations.push(animation);
+    });
   }
 
   private async startPreview(card: HTMLAnchorElement, manual = false) {
@@ -322,7 +434,7 @@ class NodusGallery extends HTMLElement {
       }
     } else if (card.dataset.youtube) {
       const iframe = document.createElement("iframe");
-      iframe.title = "프로젝트 영상 미리보기";
+      iframe.title = "Project video preview";
       iframe.tabIndex = -1;
       iframe.setAttribute("aria-hidden", "true");
       iframe.allow = "autoplay; encrypted-media";
@@ -363,6 +475,8 @@ class NodusGallery extends HTMLElement {
   }
 
   disconnectedCallback() {
+    cancelAnimationFrame(this.dragFrame);
+    this.dateAnimations.forEach(animation => animation.cancel());
     this.stopPreview();
     this.controller?.abort();
     this.resize?.disconnect();

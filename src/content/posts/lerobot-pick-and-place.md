@@ -1,4 +1,8 @@
 ---
+homeDate: 2026-02-17T00:00:00+09:00
+homeTitle: Learning Pick & Place with LeRobot + SmolVLA
+homeCategory: Physical AI
+homeCoverAlt: A trained robot arm picking up an object and placing it in a bowl
 cover: /media/images/lerobot-pick-place.jpg
 coverAlt: 로봇팔이 물건을 집어 그릇에 넣는 실제 학습 실행
 previewVideo: /media/previews/lerobot-pick-place.mp4

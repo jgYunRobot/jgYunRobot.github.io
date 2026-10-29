@@ -8,6 +8,7 @@ import "@/styles/global.css";
 
 type Props = {
   title?: string;
+  lang?: string;
   description?: string;
   ogImage?: string;
   canonicalURL?: string;
@@ -17,6 +18,7 @@ const { site } = config;
 
 const {
   title = site.title,
+  lang = Astro.currentLocale ?? site.lang,
   description = site.description,
   ogImage = resolveDefaultOgImagePath(config),
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
@@ -33,7 +35,7 @@ const rssHref = getRelativeLocaleUrl(
 <html
   data-theme="dark"
   dir={site.dir ?? "ltr"}
-  lang={Astro.currentLocale ?? site.lang}
+  lang={lang}
   class="overflow-y-scroll scroll-smooth"
 >
   <head>

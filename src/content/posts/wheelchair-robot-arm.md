@@ -1,4 +1,8 @@
 ---
+homeDate: 2022-01-31T00:00:00+09:00
+homeTitle: A Voice-Controlled Wheelchair Robot Arm
+homeCategory: Robot Hardware
+homeCoverAlt: A wheelchair-mounted robot arm grasping an object
 cover: /media/images/wheelchair-arm.jpg
 coverAlt: 휠체어에 장착한 로봇팔의 실제 물체 파지 장면
 previewVideo: /media/previews/wheelchair-arm.mp4

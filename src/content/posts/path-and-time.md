@@ -1,4 +1,8 @@
 ---
+homeDate: 2026-09-24T00:00:00+09:00
+homeTitle: Linear & Circular Motion in C++
+homeCategory: Motion & Kinematics
+homeCoverAlt: A real robot executing linear and circular motion
 cover: /media/images/motion-planning.jpg
 coverAlt: 실제 로봇에서 직선과 원호 모션을 실행하는 장면
 previewVideo: /media/previews/motion-planning.mp4

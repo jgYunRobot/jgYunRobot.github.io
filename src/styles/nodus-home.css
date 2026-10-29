@@ -274,6 +274,7 @@
   margin: 0;
 }
 .gallery-tools {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 23px;
@@ -293,6 +294,7 @@
   border-radius: 50%;
 }
 .motion-toggle {
+  white-space: nowrap;
   display: inline-flex;
   gap: 6px;
   align-items: center;
@@ -385,7 +387,6 @@
   overflow: hidden;
   transition:
     transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.5s,
     border-color 0.4s;
   transform: translateZ(0);
   text-decoration: none;
@@ -410,8 +411,8 @@
 .card-media > img {
   transition:
     transform 0.65s,
-    filter 0.65s;
-  filter: saturate(0.66) brightness(0.83);
+    opacity 0.65s;
+  opacity: 0.83;
 }
 .card-media video,
 .card-media iframe {
@@ -438,12 +439,11 @@
   left: 16px;
   padding: 3px 8px;
   border: 1px solid #ffffff32;
-  background: #0810158c;
+  background: #081015cf;
   color: #fff;
   font-size: 9px;
   letter-spacing: 0.02em;
   border-radius: 4px;
-  backdrop-filter: blur(8px);
 }
 .preview-status {
   position: absolute;
@@ -490,7 +490,7 @@
   font-size: 19px;
   line-height: 1.45;
   font-weight: 500;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 .card-bottom {
@@ -519,7 +519,7 @@
 }
 .project-card:is(:hover, :focus-visible) .card-media > img {
   transform: scale(1.035);
-  filter: saturate(1) brightness(1);
+  opacity: 1;
 }
 .project-card:is(:hover, :focus-visible) .card-bottom svg {
   transform: translate(2px, -2px);
@@ -539,14 +539,11 @@
   filter: blur(10px);
   transform: rotateX(70deg);
   pointer-events: none;
-  transition:
-    opacity 0.4s,
-    filter 0.4s;
+  transition: opacity 0.4s;
 }
 .project-slot:has(.project-card:is(:hover, :focus-visible))
   .card-ground-shadow {
   opacity: 0.4;
-  filter: blur(15px);
 }
 .nodus-gallery[data-enhanced] .gallery-stage {
   display: block;
@@ -576,13 +573,13 @@
   pointer-events: none;
 }
 .gallery-controls {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   max-width: 1304px;
   padding: 0 48px;
   margin: -6px auto 0;
-  height: 54px;
+  min-height: 108px;
   position: relative;
   z-index: 4;
 }
@@ -601,6 +598,47 @@
   width: 40px;
   height: 1px;
   background: #839f9e4d;
+}
+.gallery-timeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+.timeline-label {
+  font-size: 8px;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--nodus-muted);
+}
+.timeline-date {
+  font-size: 23px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--nodus-white);
+  line-height: 1;
+}
+.date-reels {
+  display: flex;
+  align-items: baseline;
+}
+.date-digit {
+  display: inline-block;
+  width: 0.67em;
+  height: 1em;
+  overflow: hidden;
+  contain: layout paint;
+}
+.date-digit-strip {
+  display: block;
+  white-space: pre;
+  text-align: center;
+  line-height: 1em;
+}
+.date-separator {
+  width: 0.34em;
+  color: var(--nodus-mint);
+  text-align: center;
 }
 .gallery-dots {
   display: flex;
@@ -626,6 +664,7 @@
   background: var(--nodus-mint);
 }
 .gallery-arrows {
+  justify-self: end;
   display: flex;
   gap: 9px;
 }
@@ -853,9 +892,15 @@
   .position-rule {
     width: 24px;
   }
+  .timeline-date {
+    font-size: 19px;
+  }
+  .gallery-arrows {
+    gap: 6px;
+  }
   .gallery-arrows button {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
   }
   .gallery-dots {
     gap: 0;
@@ -914,6 +959,10 @@
   .preview-status {
     display: none;
   }
+}
+.nodus-gallery[data-suspended] .card-float,
+.nodus-gallery .project-slot[data-outside] .card-float {
+  animation-play-state: paused;
 }
 @media (prefers-reduced-motion: reduce) {
   .nodus-home *,

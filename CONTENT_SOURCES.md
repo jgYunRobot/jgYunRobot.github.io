@@ -58,3 +58,18 @@ AstroPaper, MIT License, Sat Naing.
 - 기존 글 6개의 대표 영상과 동일한 장면 캡처를 카드 표지로 사용합니다. Torque Control 표지는 원문 9N0JM_-uXR0 영상의 공식 썸네일입니다.
 - 로컬 영상 미리보기는 기존 teleoperation, lerobot-pick-place, wheelchair-arm, motion-planning, frame-motion 원본의 최대 8초 무음 발췌입니다. 새 실험 결과를 추가하지 않았습니다.
 - 미리보기 출처는 글의 cover, coverAlt, previewVideo 또는 previewYoutube frontmatter에 저장합니다. 모든 글의 본문과 기존 실험 해석 범위를 유지합니다.
+
+## 홈 Timeline 날짜 보정
+
+2026-10-17은 기존 글을 블로그에 정리한 날짜다. 사용자의 요청에 따라 기존 6개 카드만 아래 마지막 작업·기록 날짜로 근사 보정했다. `pubDatetime`과 글 본문은 그대로 두고 `homeDate`에 저장한다. 앞으로 등록하는 글은 별도 보정 없이 블로그 등록일을 쓴다.
+
+| 카드 | 홈 날짜 | 대조 근거와 정밀도 |
+| --- | --- | --- |
+| 전류 토크·마찰·처짐 보상 | 2026.10.29 | Torque Control의 마지막 실측·처짐 비교일 |
+| 복합 Frame·TCP 모션 | 2026.10.06 | Combined Task Motion 원본 녹화명 10.05 및 10.06 중 마지막 날짜 |
+| 직선·원호 모션 | 2026.09.24 | time optimal path planning의 결과 기록과 보관된 9.24 원문 대조; 이 날짜를 개별 실물 주행일로 단정하지 않음 |
+| Teleoperation·SmolVLA | 2026.08.02 | 6월 LeRobot 연동과 8.02 Control powered by SmolVLA의 노란 병 추종 결과 기록 중 마지막 날짜; 전체 과정이 하루에 수행됐다는 뜻은 아님 |
+| LeRobot 집기·놓기 | 2026.02.17 | Notion 2026-02-17 첫 학습 기록과 동일 내용 대조 |
+| 휠체어 로봇팔 | 2022.01.31 | Notion 검색에서는 별도 페이지를 찾지 못함. 기존 사용자 제공 학부 연구 기간 2021.01–2022.01의 마지막 월말을 표시용으로 근사 사용; 실제 시연 일자는 미확정 |
+
+홈의 영어 제목·분류·이미지 설명은 별도 `homeTitle`, `homeCategory`, `homeCoverAlt`에서 가져온다. 기존 한국어 글의 의미와 실험 범위는 유지한다.

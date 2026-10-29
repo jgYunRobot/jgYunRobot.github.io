@@ -29,7 +29,9 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     alpha: true,
     powerPreference: "low-power",
   });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
+  renderer.setPixelRatio(
+    Math.min(devicePixelRatio, host.clientWidth < 640 ? 1.25 : 1.5)
+  );
   renderer.setClearColor(0x080b0e, 0);
   renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.18;
@@ -73,11 +75,11 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
       font,
       size: 1.65,
       depth: 0.32,
-      curveSegments: 10,
+      curveSegments: 8,
       bevelEnabled: true,
       bevelThickness: 0.035,
       bevelSize: 0.025,
-      bevelSegments: 3,
+      bevelSegments: 2,
     });
     geometry.computeBoundingBox();
     const mesh = new Mesh(geometry, [index === 1 ? highlight : front, edge]);
@@ -100,7 +102,6 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   key.shadow.mapSize.set(1024, 1024);
   key.shadow.bias = -0.0002;
   key.shadow.normalBias = 0.025;
-  key.shadow.blurSamples = 12;
   scene.add(key, key.target);
   const rim = new SpotLight(0xdde6ed, 230, 35, 0.8, 1, 2);
   rim.position.set(7, 3, -2);
@@ -121,13 +122,23 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   let visible = true;
   let frame = 0;
   let lastRender = 0;
+  let lastTick = 0;
+  let accumulatedTime = 0;
+  let layoutWidth = 0;
+  let layoutHeight = 0;
+  let pointerBounds = host.getBoundingClientRect();
   let mobile = false;
   const pointer = { x: 0, y: 0 };
   const center = new Vector3();
   const size = new Vector3();
   const layout = () => {
-    const { width, height } = host.getBoundingClientRect();
+    pointerBounds = host.getBoundingClientRect();
+    const { width, height } = pointerBounds;
+    if (width === layoutWidth && height === layoutHeight) return;
+    layoutWidth = width;
+    layoutHeight = height;
     mobile = width < 640;
+    renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.25 : 1.5));
     meshes[0].scale.setScalar(mobile ? 0.52 : 0.62);
     meshes[0].position.set(0, 1.3, 0);
     nodus.position.set(0, -0.4, 0);
@@ -147,39 +158,58 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     camera.updateProjectionMatrix();
     floor.position.y = bounds.min.y - 0.32;
     renderer.setSize(width, height, false);
-    render(performance.now());
+    if (visible && !document.hidden) render(performance.now());
   };
   const render = (now: number) => {
     const time = now * 0.00032;
-    group.rotation.x += (-0.055 + pointer.y * 0.035 - group.rotation.x) * 0.06;
-    group.rotation.y += (-0.055 + pointer.x * 0.075 - group.rotation.y) * 0.06;
+    const delta = lastRender
+      ? Math.min((now - lastRender) / 1000, 0.1)
+      : 1 / 60;
+    const blend = 1 - Math.exp(-4 * delta);
+    group.rotation.x += (-0.055 + pointer.y * 0.035 - group.rotation.x) * blend;
+    group.rotation.y += (-0.055 + pointer.x * 0.075 - group.rotation.y) * blend;
     group.position.y = paused ? 0 : Math.sin(time) * 0.04;
     key.position.x = -4 + (paused ? 0 : Math.sin(time * 0.7) * 0.5);
     renderer.render(scene, camera);
+    lastRender = now;
   };
   const tick = (now: number) => {
     frame = 0;
     if (document.hidden || !visible || signal.aborted || paused) return;
-    if (now - lastRender > 32) {
+    accumulatedTime += Math.min(now - lastTick, 100);
+    lastTick = now;
+    const interval = 1000 / (mobile ? 30 : 60);
+    if (accumulatedTime >= interval - 0.5) {
       render(now);
-      lastRender = now;
+      accumulatedTime = Math.max(0, accumulatedTime - interval);
     }
     frame = requestAnimationFrame(tick);
   };
   const schedule = () => {
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
-    render(performance.now());
-    if (!paused && !document.hidden && visible && !signal.aborted)
-      frame = requestAnimationFrame(tick);
+    if (document.hidden || !visible || signal.aborted) return;
+    lastTick = performance.now();
+    lastRender = 0;
+    accumulatedTime = 0;
+    render(lastTick);
+    if (!paused) frame = requestAnimationFrame(tick);
   };
+  host.addEventListener(
+    "pointerenter",
+    () => {
+      pointerBounds = host.getBoundingClientRect();
+    },
+    { signal }
+  );
   host.addEventListener(
     "pointermove",
     event => {
       if (paused || event.pointerType !== "mouse") return;
-      const bounds = host.getBoundingClientRect();
-      pointer.x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
-      pointer.y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+      pointer.x =
+        ((event.clientX - pointerBounds.left) / pointerBounds.width - 0.5) * 2;
+      pointer.y =
+        ((event.clientY - pointerBounds.top) / pointerBounds.height - 0.5) * 2;
     },
     { signal }
   );
