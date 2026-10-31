@@ -1,0 +1,491 @@
+.axis-project-layer {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
+.axis-experience {
+  position: absolute;
+  top: var(--axis-anchor-top, 50%);
+  left: 50%;
+  width: clamp(310px, 28vw, 390px);
+  margin-left: calc(clamp(310px, 28vw, 390px) / -2);
+  height: var(--axis-rest-height, 390px);
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  isolation: isolate;
+  contain: layout style;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: translateY(calc(-50% + 440px));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  color: var(--nodus-text);
+  text-align: left;
+  transition:
+    top 0.9s cubic-bezier(0.22, 0.8, 0.22, 1),
+    height 0.9s cubic-bezier(0.22, 0.8, 0.22, 1),
+    transform 0.9s cubic-bezier(0.22, 0.8, 0.22, 1),
+    opacity 0.6s,
+    visibility 0.9s;
+}
+.axis-experience-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 4px 0 12px;
+}
+.axis-career-title {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--nodus-mint);
+}
+.axis-experience-header button {
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  background: none;
+  border: 0;
+  color: var(--nodus-muted);
+  cursor: pointer;
+  padding: 6px 0 6px 10px;
+}
+.axis-document {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  padding: 78px 3px 105px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 70px,
+    #000 calc(100% - 90px),
+    transparent
+  );
+}
+.axis-document::-webkit-scrollbar {
+  display: none;
+}
+.axis-document:focus-visible {
+  outline: 0;
+}
+.axis-document:focus-visible .axis-employer-name {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--nodus-focus);
+}
+.axis-employer {
+  margin: 0 0 30px;
+}
+.axis-employer + .axis-employer {
+  margin-top: 38px;
+  padding-top: 28px;
+  border-top: 1px solid var(--nodus-line);
+}
+.axis-employer-name {
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  margin: 0 0 11px;
+  line-height: 1.3;
+}
+.axis-employment {
+  font-size: 12px;
+  color: var(--nodus-muted);
+  line-height: 1.9;
+  margin: 0 0 32px;
+}
+.axis-case {
+  margin: 0 0 29px;
+  padding-left: 16px;
+  border-left: 1px solid var(--nodus-card-border);
+  position: relative;
+}
+.axis-case::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 7px;
+  width: 3px;
+  height: 13px;
+  background: var(--nodus-mint);
+}
+.axis-case-title {
+  font-size: 16px;
+  letter-spacing: -0.035em;
+  line-height: 1.55;
+  font-weight: 500;
+  margin: 0 0 11px;
+  word-break: keep-all;
+}
+.axis-case p {
+  font-size: 13px;
+  color: var(--nodus-muted);
+  line-height: 1.9;
+  letter-spacing: -0.025em;
+  margin: 0 0 11px;
+  word-break: keep-all;
+}
+.axis-case .axis-period {
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+.axis-experience-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0 4px;
+  flex-shrink: 0;
+}
+.axis-experience-footer a {
+  color: var(--nodus-muted);
+  font-size: 10px;
+  text-decoration: none;
+}
+.axis-experience-footer span {
+  font-size: 9px;
+  color: var(--nodus-muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+.axis-experience button:hover,
+.axis-experience a:hover {
+  color: var(--nodus-mint);
+}
+.axis-entry {
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  width: min(640px, calc(100% - 64px));
+  height: 140px;
+  margin: 0;
+  transform: translateX(-50%);
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--nodus-text);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.035em;
+  cursor: pointer;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color 0.2s,
+    opacity 0.35s,
+    visibility 0.35s;
+}
+.nodus-gallery:not([data-enhanced]) .axis-entry {
+  display: none;
+}
+.axis-entry:hover,
+.axis-entry:focus-visible {
+  color: var(--nodus-mint);
+}
+.nodus-home .axis-entry:focus-visible {
+  outline: 0;
+}
+.axis-entry:focus-visible .axis-entry-title {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--nodus-mint);
+}
+.axis-entry-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  text-align: left;
+}
+.axis-entry-title {
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.axis-entry-hint {
+  display: block;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.015em;
+  color: var(--nodus-muted);
+}
+.axis-entry-mark {
+  font-size: 23px;
+  margin-left: 8px;
+  line-height: 1;
+  color: var(--nodus-mint);
+  transition: transform 0.25s;
+}
+.axis-entry:hover .axis-entry-mark {
+  transform: translateY(3px);
+}
+.axis-scroll-mouse {
+  position: relative;
+  width: 18px;
+  height: 29px;
+  border: 1px solid var(--nodus-mint);
+  border-radius: 10px;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+.axis-scroll-mouse > span {
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  width: 2px;
+  height: 6px;
+  background: var(--nodus-mint);
+  border-radius: 2px;
+  animation: axis-scroll-cue 1.65s ease-in-out 3;
+}
+@keyframes axis-scroll-cue {
+  0%,
+  20% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  65% {
+    transform: translateY(7px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+}
+.nodus-gallery.axis-locked .axis-entry {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.nodus-gallery.axis-locked .gallery-window {
+  overflow: visible;
+  z-index: 8;
+}
+.nodus-gallery.axis-locked .axis-project-layer {
+  pointer-events: none;
+}
+.nodus-gallery.axis-locked .project-slot {
+  transform: translate3d(
+      calc(var(--axis-frozen-x) + var(--axis-push, 0px)),
+      calc(-50% + var(--axis-frozen-y) + var(--axis-drop, 0px)),
+      var(--axis-frozen-z)
+    )
+    rotateY(var(--axis-frozen-yaw)) scale(var(--axis-scale, 1));
+  opacity: calc(var(--axis-frozen-opacity) * var(--axis-opacity, 1));
+  transition:
+    transform 0.8s cubic-bezier(0.22, 0.8, 0.22, 1),
+    opacity 0.7s;
+  pointer-events: none;
+}
+.nodus-gallery.axis-locked .card-float {
+  animation-play-state: paused;
+}
+.nodus-gallery.axis-locked .project-card {
+  transform: none;
+}
+.nodus-gallery.axis-locked .gallery-controls {
+  pointer-events: auto;
+  opacity: 0.45;
+  transition: opacity 0.4s;
+}
+.nodus-gallery.axis-locked .gallery-timeline {
+  opacity: 0;
+  pointer-events: none;
+}
+.nodus-gallery.is-career .project-slot {
+  --axis-push: var(--axis-spread);
+  --axis-opacity: 0.58;
+  --axis-scale: 0.97;
+}
+.nodus-gallery.is-career .project-slot[data-axis-center] {
+  --axis-drop: 360px;
+  --axis-opacity: 0.09;
+  --axis-scale: 0.93;
+}
+.nodus-gallery.is-career .axis-experience {
+  top: calc(var(--axis-anchor-top) - var(--axis-rise, 160px));
+  height: var(--axis-expanded-height, 1000px);
+  transform: translateY(-50%);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.nodus-hero {
+  transition:
+    transform 0.9s cubic-bezier(0.22, 0.8, 0.22, 1),
+    opacity 0.65s;
+}
+.gallery-heading,
+.collection-footer,
+.nodus-footer {
+  transition: opacity 0.4s;
+}
+.nodus-home.axis-home-career .nodus-hero {
+  transform: translateY(-520px);
+  opacity: 0;
+  pointer-events: none;
+}
+.nodus-home.axis-home-career .gallery-heading,
+.nodus-home.axis-home-career .collection-footer,
+.nodus-home.axis-home-career .nodus-footer {
+  opacity: 0;
+  pointer-events: none;
+}
+.nodus-brand {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: start;
+  gap: 0;
+  min-width: 320px;
+  min-height: 34px;
+  position: relative;
+}
+.axis-brand-project,
+.axis-career-brand {
+  grid-area: 1/1;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  transition:
+    opacity 0.6s ease,
+    transform 0.75s cubic-bezier(0.22, 0.8, 0.22, 1);
+}
+.axis-brand-project {
+  gap: 13px;
+  opacity: 1;
+  transform: translateY(0);
+}
+.axis-career-brand {
+  gap: 15px;
+  font-size: 17px;
+  letter-spacing: -0.025em;
+  opacity: 0;
+  transform: translateY(9px);
+  pointer-events: none;
+}
+.axis-career-brand small {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--nodus-muted);
+  text-transform: uppercase;
+}
+.nodus-home.axis-home-career .axis-brand-project {
+  opacity: 0;
+  transform: translateY(-9px);
+  pointer-events: none;
+}
+.nodus-home.axis-home-career .axis-career-brand {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+@media (max-width: 1000px) {
+  .axis-entry {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: calc(100% - 48px);
+    max-width: 640px;
+    margin: 12px auto 0;
+    height: 126px;
+  }
+}
+@media (max-width: 640px) {
+  .axis-experience {
+    width: 82vw;
+    max-width: 350px;
+    margin-left: calc(min(82vw, 350px) / -2);
+  }
+  .axis-document {
+    padding: 60px 8px 105px;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 52px,
+      #000 calc(100% - 70px),
+      transparent
+    );
+  }
+  .axis-experience-header,
+  .axis-experience-footer {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .axis-employer-name {
+    font-size: 29px;
+  }
+  .axis-case-title {
+    font-size: 15px;
+  }
+  .axis-case p {
+    font-size: 12px;
+  }
+  .nodus-gallery.is-career .project-slot[data-axis-center] {
+    --axis-drop: 300px;
+  }
+  .nodus-home.axis-home-career .nodus-hero {
+    transform: translateY(-430px);
+  }
+  .nodus-brand {
+    min-width: 0;
+    min-height: 30px;
+  }
+  .axis-brand-project {
+    gap: 9px;
+  }
+  .axis-career-brand {
+    font-size: 14px;
+  }
+  .axis-career-brand small {
+    display: none;
+  }
+  .axis-entry {
+    height: 116px;
+    gap: 16px;
+  }
+  .axis-entry-title {
+    font-size: 15px;
+  }
+  .axis-entry-hint {
+    font-size: 11px;
+    max-width: 210px;
+  }
+  .axis-entry-mark {
+    font-size: 21px;
+    margin-left: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nodus-gallery.axis-locked .project-slot,
+  .nodus-hero,
+  .axis-experience,
+  .axis-brand-project,
+  .axis-career-brand,
+  .axis-entry,
+  .axis-scroll-mouse > span {
+    transition: none;
+    animation: none;
+  }
+}

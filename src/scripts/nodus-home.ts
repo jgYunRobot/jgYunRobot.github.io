@@ -1,4 +1,5 @@
 import "@fontsource-variable/manrope";
+import { createExperienceNavigation } from "./nodus-experience";
 
 class NodusTitle extends HTMLElement {
   private cleanup?: () => void;
@@ -179,13 +180,25 @@ class NodusGallery extends HTMLElement {
       }
       this.setAttribute("data-enhanced", "");
     };
+    let experience_controller:
+      ReturnType<typeof createExperienceNavigation> | undefined;
     const select = (index: number) => {
+      if (experience_controller?.isActive()) {
+        experience_controller.close(() => select(index));
+        return;
+      }
       const next = (index + cards.length) % cards.length;
       if (next === this.active) return;
       this.stopPreview();
       this.active = next;
       layout();
     };
+    experience_controller = createExperienceNavigation(this, {
+      signal,
+      getCurrentIndex: () => this.active,
+      selectProject: select,
+      stopPreview: () => this.stopPreview(),
+    });
     this.querySelector("[data-previous]")!.addEventListener(
       "click",
       () => select(this.active - 1),
@@ -218,6 +231,7 @@ class NodusGallery extends HTMLElement {
       card.addEventListener(
         "pointerenter",
         event => {
+          if (experience_controller?.isActive()) return;
           if (
             event.pointerType === "mouse" &&
             finePointer.matches &&

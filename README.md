@@ -116,3 +116,14 @@ YouTube 영상을 쓰는 글은 `previewVideo` 대신 `previewYoutube`에 영상
 페이지를 이동할 때 WebGL 리소스를 해제합니다. WebGL 사용이 어려우면 정적 포스터를 유지하며
 JavaScript 없이도 프로젝트 링크를 이용할 수 있습니다. 설계는 `DESIGN.md`, 자산 출처는
 `THIRD_PARTY_NOTICES.md`를 참고합니다.
+
+## 홈의 회사 경력 탐색
+
+개인 Project Nodus의 가로 프로젝트 탐색과 회사 업무의 세로 경력 탐색을 같은 홈에서 연결합니다. 중앙 카드 위의 넓은 **Professional Experience** 영역에서 아래로 스크롤하거나 클릭하면, 타이틀과 중앙 카드가 물러나고 배경 위에 경력이 길게 펼쳐집니다.
+
+- 회사명·직책·재직 기간과 업무 요약은 기존 `src/content/pages/about.md`를 사용합니다. 상세 경력은 `/about/`에서 읽습니다.
+- 경력을 읽는 동안에는 좌우 카드의 위치를 유지합니다. 가로 탐색을 요청하면 경력 전환을 마친 뒤 프로젝트를 이동해 겹침을 방지합니다.
+- 경력 맨 위에서 위로 다시 스크롤하거나, 터치로 아래로 당기거나, Projects·Esc로 복귀합니다.
+- 로고는 Project Nodus와 Junggil Yun / Professional Experience 사이를 같은 위치에서 부드럽게 전환합니다.
+- 터치 기기에는 마우스 없이도 보이는 3D 타이틀 회전과 조명 움직임을 적용합니다. 움직임 줄이기와 Motion off를 존중합니다.
+- 관련 파일은 `src/components/NodusExperience.astro`, `src/scripts/nodus-experience.ts`, `src/styles/nodus-experience.css`입니다. 시안의 진단 표시·임시 번들·import map은 배포에 포함하지 않습니다.

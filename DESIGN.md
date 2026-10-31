@@ -21,6 +21,18 @@ A robotics atelier with an invariant dark home palette: a lit, extruded metal wo
 - Performance: transform/opacity-only card and digit motion, one animation-frame write per drag frame, paused offscreen/background/distant cards, and no repeat gallery layout on unchanged size. Text geometry uses 8 curve segments and 2 bevel segments (13,432 triangles, down from 22,144); pixel ratio caps are 1.5 on desktop and 1.25 on mobile. The title targets 60 Hz on desktop and 30 Hz on mobile with time-based smoothing.
 - New posts carry cover/preview fields in frontmatter. Existing article text, sources and routes stay intact.
 
+## Professional experience on home
+
+- Personal exploration stays on the horizontal Project Nodus filmstrip. Professional work uses a separate identity: Junggil Yun / Professional Experience, company names, employment dates and roles.
+- The central 640 × 140 px entry has an always-visible wheel cue, direction arrow and instruction. Only a downward wheel gesture over this entry opens experience; the hero and project-card browsing retain their normal behavior. Touch can activate the entry directly.
+- Opening moves the large Nodus title upward, lowers the selected project card and spreads the neighboring cards. The career text keeps the central card width and expands vertically to the available viewport, without a card fill, outline or shadow. A mask fades the text at its top and bottom.
+- Home summaries come from the existing public `src/content/pages/about.md`: employer headings, employment metadata, work headings, first summary paragraphs and periods. The detailed career page remains the canonical source; do not duplicate internal work logs or company media.
+- `NodusExperience.astro` renders the accessible document; `nodus-experience.ts` owns the transition and input routing. The project layer and text overlay are separate stacking contexts. Project positions remain frozen until the text exits; horizontal input and project controls resume the gallery afterward, with one queued selection.
+- Scrolling within the document stays vertical. A fresh upward gesture at its top, a downward touch pull from its top, Projects or Escape returns to the gallery. Pointer drag and keyboard events inside the text cannot leak into the project carousel. Timers, frames, observers and listeners are cleaned up with the gallery lifecycle.
+- The header identities occupy the same grid cell and crossfade with a small vertical movement. Hidden personal-project navigation leaves the focus order while professional work is active. Reduced-motion preferences remove transitions.
+- The experience entry has no decorative background or separator: a tablet Samsung Internet comparison exposed that decoration over the central project image. Keyboard focus is indicated on the entry label instead of a large rectangular frame.
+- Coarse-pointer devices use subtle autonomous title rotation, stronger light movement, balanced fill/rim lighting and a 30 Hz rendering target. Fine-pointer behavior retains the original mouse response. Actual frame rate is not implied by the target; pause and reduced-motion behavior remain supported.
+
 ## Verification
 
 Check stored System/Light/Dark preferences and simulated light/dark system signals all retain the same dark home before and after loading; verify reading-page themes and navigation still work. Check the lit title, individual lift, video exclusivity, carousel buttons/keyboard/swipe, direct article navigation, return-to-home lifecycle, mobile overflow and pause/reduced-motion behavior. Build and local-link checks are separate from visual and interaction checks.

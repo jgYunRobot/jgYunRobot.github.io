@@ -1,0 +1,75 @@
+---
+import { getEntry } from "astro:content";
+import "@/styles/nodus-experience.css";
+
+type CareerCase = { title: string; summary: string; period: string };
+type Employer = { name: string; employment: string; cases: CareerCase[] };
+const about = (await getEntry("pages", "about"))!;
+const employers: Employer[] = [];
+let employer: Employer | undefined;
+let career_case: CareerCase | undefined;
+
+for (const raw_line of about.body!.split("\n")) {
+  const line = raw_line.trim();
+  if (line.startsWith("## ")) {
+    employer = { name: line.slice(3), employment: "", cases: [] };
+    employers.push(employer);
+    career_case = undefined;
+  } else if (employer && line.startsWith("### ")) {
+    career_case = { title: line.slice(4), summary: "", period: "" };
+    employer.cases.push(career_case);
+  } else if (employer && !career_case && line.startsWith("**")) {
+    employer.employment = line.replaceAll("**", "");
+  } else if (career_case) {
+    const period = line.match(/^- \*\*(?:기간|프로젝트 기간):\*\*\s*(.+)$/);
+    if (period) career_case.period = period[1];
+    else if (line && !line.startsWith("-") && !career_case.summary)
+      career_case.summary = line;
+  }
+}
+---
+
+<section
+  id="professional-experience"
+  class="axis-experience"
+  aria-labelledby="experience-title"
+  aria-hidden="true"
+  inert
+>
+  <header class="axis-experience-header">
+    <h1 class="axis-career-title" id="experience-title">
+      Professional Experience
+    </h1>
+    <button type="button" data-axis-close aria-label="Return to projects">
+      Projects ↑ <span aria-hidden="true">· Esc</span>
+    </button>
+  </header>
+  <div
+    class="axis-document"
+    tabindex="0"
+    lang="ko"
+    aria-label="회사 경력기술서 세로 스크롤"
+  >
+    {
+      employers.map(company => (
+        <section class="axis-employer" aria-label={company.name}>
+          <h2 class="axis-employer-name">{company.name}</h2>
+          {company.employment && (
+            <p class="axis-employment">{company.employment}</p>
+          )}
+          {company.cases.map(work => (
+            <section class="axis-case">
+              <h3 class="axis-case-title">{work.title}</h3>
+              <p>{work.summary}</p>
+              <p class="axis-period">{work.period}</p>
+            </section>
+          ))}
+        </section>
+      ))
+    }
+  </div>
+  <footer class="axis-experience-footer">
+    <a href="/about/" lang="ko">경력기술서 전체 보기 ↗</a>
+    <span data-axis-position aria-hidden="true">0%</span>
+  </footer>
+</section>

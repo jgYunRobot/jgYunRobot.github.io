@@ -23,6 +23,7 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import fontData from "@/assets/fonts/helvetiker_bold.typeface.json";
 
 export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
+  const touch_mode = matchMedia("(pointer: coarse)").matches;
   const canvas = host.querySelector<HTMLCanvasElement>("canvas")!;
   const renderer = new WebGLRenderer({
     canvas,
@@ -105,10 +106,10 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   key.shadow.bias = -0.0002;
   key.shadow.normalBias = 0.025;
   scene.add(key, key.target);
-  const rim = new SpotLight(0xdde6ed, 230, 35, 0.8, 1, 2);
+  const rim = new SpotLight(0xdde6ed, touch_mode ? 300 : 230, 35, 0.8, 1, 2);
   rim.position.set(7, 3, -2);
   scene.add(rim, rim.target);
-  const fill = new DirectionalLight(0xffffff, 2.4);
+  const fill = new DirectionalLight(0xffffff, touch_mode ? 1.9 : 2.4);
   fill.position.set(-2, 1, 7);
   scene.add(fill);
   const floorMaterial = new ShadowMaterial({ color: 0x000000, opacity: 0.32 });
@@ -183,10 +184,23 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
       ? Math.min((now - lastRender) / 1000, 0.1)
       : 1 / 60;
     const blend = 1 - Math.exp(-4 * delta);
-    group.rotation.x += (-0.055 + pointer.y * 0.035 - group.rotation.x) * blend;
-    group.rotation.y += (-0.055 + pointer.x * 0.075 - group.rotation.y) * blend;
-    group.position.y = paused ? 0 : Math.sin(time) * 0.04;
-    key.position.x = -4 + (paused ? 0 : Math.sin(time * 0.7) * 0.5);
+    group.rotation.x +=
+      (-0.055 +
+        pointer.y * 0.035 +
+        (touch_mode && !paused ? Math.sin(time * 0.9) * 0.028 : 0) -
+        group.rotation.x) *
+      blend;
+    group.rotation.y +=
+      (-0.055 +
+        pointer.x * 0.075 +
+        (touch_mode && !paused ? Math.sin(time * 1.35) * 0.105 : 0) -
+        group.rotation.y) *
+      blend;
+    group.position.y = paused
+      ? 0
+      : Math.sin(time) * (touch_mode ? 0.075 : 0.04);
+    key.position.x =
+      -4 + (paused ? 0 : Math.sin(time * 0.7) * (touch_mode ? 1.1 : 0.5));
     renderer.render(scene, camera);
     lastRender = now;
   };
@@ -195,7 +209,7 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
     if (document.hidden || !visible || signal.aborted || paused) return;
     accumulatedTime += Math.min(now - lastTick, 100);
     lastTick = now;
-    const interval = 1000 / (mobile ? 30 : 60);
+    const interval = 1000 / (mobile || touch_mode ? 30 : 60);
     if (accumulatedTime >= interval - 0.5) {
       render(now);
       accumulatedTime = Math.max(0, accumulatedTime - interval);
@@ -222,7 +236,7 @@ export function createTitleScene(host: HTMLElement, signal: AbortSignal) {
   host.addEventListener(
     "pointermove",
     event => {
-      if (paused || event.pointerType !== "mouse") return;
+      if (paused) return;
       pointer.x =
         ((event.clientX - pointerBounds.left) / pointerBounds.width - 0.5) * 2;
       pointer.y =

@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { getPostUrl } from "@/utils/getPostPaths";
 import "@/styles/nodus-home.css";
 import config from "@/config";
+import NodusExperience from "@/components/NodusExperience.astro";
 import desktopDarkPoster from "@/assets/title-posters/nodus-title-desktop-dark.webp?inline";
 import mobileDarkPoster from "@/assets/title-posters/nodus-title-mobile-dark.webp?inline";
 
@@ -53,11 +54,16 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
   <a class="nodus-skip" href="#project-gallery">Skip to projects</a>
   <header class="nodus-header">
     <a href="/" class="nodus-brand" aria-label="Project Nodus home">
-      <svg viewBox="0 0 32 32" aria-hidden="true"
-        ><path d="M7 24V8l18 16V8"></path><circle cx="7" cy="8" r="2.5"
-        ></circle><circle cx="25" cy="24" r="2.5"></circle></svg
+      <span class="axis-brand-project">
+        <svg viewBox="0 0 32 32" aria-hidden="true"
+          ><path d="M7 24V8l18 16V8"></path><circle cx="7" cy="8" r="2.5"
+          ></circle><circle cx="25" cy="24" r="2.5"></circle></svg
+        >
+        <span>Project <strong>Nodus</strong></span>
+      </span>
+      <span class="axis-career-brand" aria-hidden="true"
+        >Junggil Yun <small>Professional Experience</small></span
       >
-      <span>Project <strong>Nodus</strong></span>
     </a>
     <nav aria-label="Main navigation" class="nodus-nav">
       <a href="#project-gallery" aria-current="page">Projects</a>
@@ -142,141 +148,163 @@ const digitSequence = Array.from({ length: 30 }, (_, index) => index % 10).join(
         aria-label="Project cards"
         tabindex="0"
       >
+        <button
+          class="axis-entry"
+          type="button"
+          data-axis-open
+          aria-expanded="false"
+          aria-controls="professional-experience"
+          aria-label="Open professional experience: scroll down here or click"
+        >
+          <span class="axis-scroll-mouse" aria-hidden="true"><span></span></span
+          >
+          <span class="axis-entry-copy"
+            ><span class="axis-entry-title">Professional Experience</span><span
+              class="axis-entry-hint"
+              >Scroll down here to explore · or click</span
+            ></span
+          >
+          <span class="axis-entry-mark" aria-hidden="true">↓</span>
+        </button>
         <div class="gallery-window">
           <div class="gallery-floor" aria-hidden="true"></div>
-          <div class="gallery-stage">
-            {
-              projects.map(
-                (
-                  {
-                    post,
-                    title,
-                    category,
-                    coverAlt,
-                    timelineAt,
-                    timelineDate,
-                    timelineLabel,
-                  },
-                  index
-                ) => (
-                  <div
-                    class="project-slot"
-                    data-card-slot
-                    style={`--card-order:${index}`}
-                  >
-                    <div class="card-float">
-                      <a
-                        class="project-card"
-                        href={getPostUrl(post.id, post.filePath)}
-                        data-card
-                        data-preview={post.data.previewVideo}
-                        data-youtube={post.data.previewYoutube}
-                        aria-label={title}
-                        data-timeline-at={timelineAt.toISOString()}
-                        data-timeline-date={timelineDate}
-                        data-timeline-label={timelineLabel}
-                      >
-                        <canvas
-                          class="nodus-surface"
-                          width="1"
-                          height="1"
-                          data-surface-color="#161d23"
-                          aria-hidden="true"
-                        />
-                        <div class="card-media">
-                          <img
-                            src={
-                              post.data.cover ??
-                              "/media/images/motion-planning.jpg"
-                            }
-                            alt={coverAlt}
-                            width="768"
-                            height="480"
-                            loading={index < 2 ? "eager" : "lazy"}
-                            decoding="async"
-                          />
+          <div class="axis-project-layer">
+            <div class="gallery-stage">
+              {
+                projects.map(
+                  (
+                    {
+                      post,
+                      title,
+                      category,
+                      coverAlt,
+                      timelineAt,
+                      timelineDate,
+                      timelineLabel,
+                    },
+                    index
+                  ) => (
+                    <div
+                      class="project-slot"
+                      data-card-slot
+                      style={`--card-order:${index}`}
+                    >
+                      <div class="card-float">
+                        <a
+                          class="project-card"
+                          href={getPostUrl(post.id, post.filePath)}
+                          data-card
+                          data-preview={post.data.previewVideo}
+                          data-youtube={post.data.previewYoutube}
+                          aria-label={title}
+                          data-timeline-at={timelineAt.toISOString()}
+                          data-timeline-date={timelineDate}
+                          data-timeline-label={timelineLabel}
+                        >
                           <canvas
-                            class="card-thumbnail"
+                            class="nodus-surface"
                             width="1"
                             height="1"
-                            data-thumbnail-canvas
+                            data-surface-color="#161d23"
                             aria-hidden="true"
                           />
-                          {post.data.previewVideo && (
-                            <video
-                              muted
-                              loop
-                              playsinline
-                              preload="none"
+                          <div class="card-media">
+                            <img
+                              src={
+                                post.data.cover ??
+                                "/media/images/motion-planning.jpg"
+                              }
+                              alt={coverAlt}
+                              width="768"
+                              height="480"
+                              loading={index < 2 ? "eager" : "lazy"}
+                              decoding="async"
+                            />
+                            <canvas
+                              class="card-thumbnail"
+                              width="1"
+                              height="1"
+                              data-thumbnail-canvas
                               aria-hidden="true"
-                              disablepictureinpicture
-                              data-local-preview
-                            >
-                              <source
-                                data-src={post.data.previewVideo}
-                                type="video/mp4"
-                              />
-                            </video>
-                          )}
-                          <div class="card-vignette" />
-                          <span class="card-category">{category}</span>
-                          <span class="preview-status">
-                            <>
-                              <svg viewBox="0 0 16 16" aria-hidden="true">
-                                <path d="m6 3 7 5-7 5Z" />
-                              </svg>
-                              <span data-preview-label>Preview</span>
-                            </>
-                          </span>
-                        </div>
-                        <div class="card-copy">
-                          <>
-                            <div class="card-date">
+                            />
+                            {post.data.previewVideo && (
+                              <video
+                                muted
+                                loop
+                                playsinline
+                                preload="none"
+                                aria-hidden="true"
+                                disablepictureinpicture
+                                data-local-preview
+                              >
+                                <source
+                                  data-src={post.data.previewVideo}
+                                  type="video/mp4"
+                                />
+                              </video>
+                            )}
+                            <div class="card-vignette" />
+                            <span class="card-category">{category}</span>
+                            <span class="preview-status">
                               <>
-                                <span>
-                                  {new Intl.DateTimeFormat("en", {
-                                    month: "short",
-                                    year: "numeric",
-                                  }).format(timelineAt)}
-                                </span>
-                                <span>
-                                  {String(index + 1).padStart(2, "0")}
-                                </span>
-                              </>
-                            </div>
-                            <h3>{title}</h3>
-                            <div class="card-bottom">
-                              <>
-                                <span>Explore project</span>
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                  <path d="M6 18 18 6M6 6h12v12" />
+                                <svg viewBox="0 0 16 16" aria-hidden="true">
+                                  <path d="m6 3 7 5-7 5Z" />
                                 </svg>
+                                <span data-preview-label>Preview</span>
                               </>
-                            </div>
-                          </>
-                        </div>
-                      </a>
-                      {(post.data.previewVideo || post.data.previewYoutube) && (
-                        <button
-                          type="button"
-                          class="touch-preview"
-                          data-touch-preview
-                          aria-label={`Preview video: ${title}`}
-                          aria-pressed="false"
-                        >
-                          <svg viewBox="0 0 20 20" aria-hidden="true">
-                            <path d="m7 4 9 6-9 6Z" />
-                          </svg>
-                          <span>Video preview</span>
-                        </button>
-                      )}
+                            </span>
+                          </div>
+                          <div class="card-copy">
+                            <>
+                              <div class="card-date">
+                                <>
+                                  <span>
+                                    {new Intl.DateTimeFormat("en", {
+                                      month: "short",
+                                      year: "numeric",
+                                    }).format(timelineAt)}
+                                  </span>
+                                  <span>
+                                    {String(index + 1).padStart(2, "0")}
+                                  </span>
+                                </>
+                              </div>
+                              <h3>{title}</h3>
+                              <div class="card-bottom">
+                                <>
+                                  <span>Explore project</span>
+                                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 18 18 6M6 6h12v12" />
+                                  </svg>
+                                </>
+                              </div>
+                            </>
+                          </div>
+                        </a>
+                        {(post.data.previewVideo ||
+                          post.data.previewYoutube) && (
+                          <button
+                            type="button"
+                            class="touch-preview"
+                            data-touch-preview
+                            aria-label={`Preview video: ${title}`}
+                            aria-pressed="false"
+                          >
+                            <svg viewBox="0 0 20 20" aria-hidden="true">
+                              <path d="m7 4 9 6-9 6Z" />
+                            </svg>
+                            <span>Video preview</span>
+                          </button>
+                        )}
+                      </div>
+                      <div class="card-ground-shadow" aria-hidden="true" />
                     </div>
-                    <div class="card-ground-shadow" aria-hidden="true" />
-                  </div>
+                  )
                 )
-              )
-            }
+              }
+            </div>
           </div>
+          <NodusExperience />
         </div>
         <div class="gallery-controls">
           <div class="gallery-position">
